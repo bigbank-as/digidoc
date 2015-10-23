@@ -1,0 +1,13 @@
+{
+  "name": "bigbank/mobile-id",
+  "autoload": {
+    "psr-4": {
+      "Bigbank\\MobileId\\": "src/"
+    }
+  },
+  "require": {
+    "ext-xml": "*",
+    "ext-curl": "*",
+    "ext-soap": "*"
+  }
+}
