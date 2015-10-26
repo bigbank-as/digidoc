@@ -4,6 +4,13 @@ namespace Bigbank\MobileId;
 class SoapClient extends \SoapClient
 {
 
+    /**
+     * @param string $url
+     * @param string $data
+     * @param string $action
+     *
+     * @return string
+     */
     protected function callCurl($url, $data, $action)
     {
 
@@ -26,12 +33,24 @@ class SoapClient extends \SoapClient
         return $response;
     }
 
+    /**
+     * @param string $request
+     * @param string $location
+     * @param string $action
+     * @param int    $version
+     * @param int    $one_way
+     *
+     * @return string
+     */
     public function __doRequest($request, $location, $action, $version, $one_way = 0)
     {
 
         return $this->callCurl($location, $request, $action);
     }
 
+    /**
+     * @return bool|string
+     */
     protected function getProxyString()
     {
 

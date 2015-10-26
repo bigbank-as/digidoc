@@ -2,45 +2,94 @@
 namespace Bigbank\MobileId;
 
 
-use Bigbank\MobileId\Dto\AuthenticationInput;
-use Bigbank\MobileId\Dto\StatusInput;
+use Bigbank\MobileId\Request\GetMobileAuthenticateStatus;
+use Bigbank\MobileId\Request\MobileAuthenticate;
 
-class Authenticator extends AbstractRequest implements AuthenticatorInterface
+/**
+ * {@inheritdoc}
+ */
+class Authenticator implements AuthenticatorInterface
 {
 
-    public function authenticate(array $input)
+    const URL_PRODUCTION = 'https://digidocservice.sk.ee/?wsdl';
+    const URL_TEST = 'https://tsp.demo.sk.ee?WSDL';
+
+    /**
+     * @var string
+     */
+    protected $apiUrl = self::URL_TEST;
+
+    /**
+     * @var array
+     */
+    protected $options = [
+        'exceptions' => true,
+        'proxy_host' => null,
+        'proxy_port' => null
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay)
     {
 
-        $client   = $this->clientFactory();
-
-        $defaults = [
-            'IDCode'
+        $arguments = [
+            'IDCode'           => $idCode,
+            'PhoneNo'          => $phoneNumber,
+            'ServiceName'      => $serviceName,
+            'MessageToDisplay' => $messageToDisplay
         ];
 
-        $response = $client->MobileAuthenticate(
-            $input->getIdCode(),
-            $input->getCountryCode(),
-            $input->getPhoneNumber(),
-            $input->getLanguage(),
-            $input->getServiceName(),
-            $input->getMessageToDisplay(),
-            $input->getChallengeToken(),
-            $input->getMessagingMode(),
-            $input->getAsyncConfiguration(),
-            $input->getReturnCertData(),
-            $input->getReturnRevocationData()
-        );
+        $request  = new MobileAuthenticate;
+        $response = $request->factory($this->apiUrl, $this->options)
+            ->send($arguments);
 
         return $response;
     }
 
-    public function askStatus(StatusInput $input)
+    /**
+     * {@inheritdoc}
+     */
+    public function askStatus($sessionCode)
     {
 
-        $client = $this->clientFactory();
-        $response = $client->GetMobileAuthenticateStatus($input->getSessionId());
 
+        $request  = new GetMobileAuthenticateStatus;
+        $response = $request->factory($this->apiUrl, $this->options)
+            ->send(['Sesscode' => $sessionCode]);
         return $response;
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAuthenticated($sessionCode)
+    {
+
+        $status = $this->askStatus($sessionCode);
+
+        return $status['Status'] === 'USER_AUTHENTICATED';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOptions(array $options)
+    {
+
+        $this->options = array_replace($this->options, $options);
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setApiUrl($apiUrl)
+    {
+
+        $this->apiUrl = $apiUrl;
+        return $this;
+    }
 }
