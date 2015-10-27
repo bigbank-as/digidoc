@@ -1,7 +1,8 @@
 <?php
-namespace Bigbank\MobileId\Services;
+namespace Bigbank\DigiDoc\Services\MobileId;
 
-use Bigbank\MobileId\Requests\RequestInterface;
+use Bigbank\DigiDoc\Requests\RequestInterface;
+use Bigbank\DigiDoc\Services\AbstractDigiDocService;
 
 /**
  * {@inheritdoc}

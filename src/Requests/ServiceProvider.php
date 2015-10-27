@@ -1,7 +1,7 @@
 <?php
-namespace Bigbank\MobileId\Requests;
+namespace Bigbank\DigiDoc\Requests;
 
-use Bigbank\MobileId\SoapClientInterface;
+use Bigbank\DigiDoc\SoapClientInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ServiceProvider extends AbstractServiceProvider

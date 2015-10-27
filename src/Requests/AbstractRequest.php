@@ -1,9 +1,9 @@
 <?php
-namespace Bigbank\MobileId\Requests;
+namespace Bigbank\DigiDoc\Requests;
 
-use Bigbank\MobileId\Exceptions\IdException;
-use Bigbank\MobileId\SoapClient;
-use Bigbank\MobileId\SoapClientInterface;
+use Bigbank\DigiDoc\Exceptions\IdException;
+use Bigbank\DigiDoc\SoapClient;
+use Bigbank\DigiDoc\SoapClientInterface;
 
 /**
  * Abstract base class for SOAP requests

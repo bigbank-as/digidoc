@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId\Exceptions;
+namespace Bigbank\DigiDoc\Exceptions;
 
 class IdException extends \SoapFault
 {

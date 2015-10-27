@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId\Requests;
+namespace Bigbank\DigiDoc\Requests;
 
 /**
  * Returns the signed document

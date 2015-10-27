@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId\Requests;
+namespace Bigbank\DigiDoc\Requests;
 
 /**
  * Get the status of mobile ID authentication process

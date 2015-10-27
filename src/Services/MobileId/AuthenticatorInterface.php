@@ -1,5 +1,7 @@
 <?php
-namespace Bigbank\MobileId\Services;
+namespace Bigbank\DigiDoc\Services\MobileId;
+
+use Bigbank\DigiDoc\Services\DigiDocServiceInterface;
 
 /**
  * Authenticate against the mobile ID API

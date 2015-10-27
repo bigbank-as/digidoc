@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId;
+namespace Bigbank\DigiDoc;
 
 interface SoapClientInterface {
 

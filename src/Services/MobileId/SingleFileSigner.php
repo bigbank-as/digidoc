@@ -1,11 +1,12 @@
 <?php
-namespace Bigbank\MobileId\Services;
+namespace Bigbank\DigiDoc\Services\MobileId;
 
-use Bigbank\MobileId\Requests\StartSession;
-use Bigbank\MobileId\Requests\MobileSign;
-use Bigbank\MobileId\Requests\GetStatusInfo;
-use Bigbank\MobileId\Requests\GetSignedDoc;
-use Bigbank\MobileId\Requests\CloseSession;
+use Bigbank\DigiDoc\Requests\StartSession;
+use Bigbank\DigiDoc\Requests\MobileSign;
+use Bigbank\DigiDoc\Requests\GetStatusInfo;
+use Bigbank\DigiDoc\Requests\GetSignedDoc;
+use Bigbank\DigiDoc\Requests\CloseSession;
+use Bigbank\DigiDoc\Services\AbstractDigiDocService;
 
 /**
  * {@inheritdoc}

@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId;
+namespace Bigbank\DigiDoc;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 

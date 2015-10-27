@@ -1,8 +1,10 @@
 <?php
-namespace Bigbank\MobileId\Services;
+namespace Bigbank\DigiDoc\Services;
 
-use Bigbank\MobileId\Requests\GetMobileAuthenticateStatus;
-use Bigbank\MobileId\Requests\MobileAuthenticate;
+use Bigbank\DigiDoc\Requests\GetMobileAuthenticateStatus;
+use Bigbank\DigiDoc\Requests\MobileAuthenticate;
+use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ServiceProvider extends AbstractServiceProvider
@@ -13,11 +15,7 @@ class ServiceProvider extends AbstractServiceProvider
     ];
 
     /**
-     * Use the register method to register items with the container via the
-     * protected $this->container property or the `getContainer` method
-     * from the ContainerAwareTrait.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function register()
     {

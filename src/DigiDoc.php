@@ -1,14 +1,17 @@
 <?php
 
-namespace Bigbank\MobileId;
+namespace Bigbank\DigiDoc;
 
-use Bigbank\MobileId\Requests\ServiceProvider as RequestServiceProvider;
-use Bigbank\MobileId\ServiceProvider as SystemServiceProvider;
-use Bigbank\MobileId\Services\ServiceProvider as ServiceProvider;
+use Bigbank\DigiDoc\Requests\ServiceProvider as RequestServiceProvider;
+use Bigbank\DigiDoc\ServiceProvider as SystemServiceProvider;
+use Bigbank\DigiDoc\Services\ServiceProvider as ServiceProvider;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 
-class MobileId
+/**
+ * {@inheritdoc}
+ */
+class DigiDoc implements DigiDocInterface
 {
 
     /**
@@ -26,18 +29,31 @@ class MobileId
      */
     protected $container;
 
+    /**
+     * @param string $apiUrl
+     * @param array  $options
+     */
     public function __construct($apiUrl, array $options = [])
     {
 
         $this->container = $this->containerFactory($apiUrl, $options);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getService($service)
     {
 
         return $this->container->get($service);
     }
 
+    /**
+     * @param string $apiUrl
+     * @param array  $options
+     *
+     * @return Container
+     */
     private function containerFactory($apiUrl, array $options = [])
     {
 
@@ -55,6 +71,9 @@ class MobileId
     }
 
 
+    /**
+     * {@inheritdoc}
+     */
     public function getContainer()
     {
 
