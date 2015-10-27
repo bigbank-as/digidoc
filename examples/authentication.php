@@ -1,11 +1,13 @@
 <?php
-include 'vendor/autoload.php';
+use Bigbank\MobileId\AuthenticatorInterface;
 
-$auth = new \Bigbank\MobileId\Authenticator;
-$auth->setOptions([
-    'proxy_host' => 'cache.big.local',
-    'proxy_port' => 3128
-]);
+putenv('HTTP_PROXY=http://cache.big.local:3128');
+
+include '../vendor/autoload.php';
+
+$mobileId = new \Bigbank\MobileId\MobileId;
+
+$auth = $mobileId->getService(AuthenticatorInterface::class);
 
 $userPhone  = '+37200007';
 $userIdCode = '14212128025';

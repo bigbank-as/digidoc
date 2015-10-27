@@ -1,6 +1,6 @@
 <?php
 
-include 'vendor/autoload.php';
+include '../vendor/autoload.php';
 
 $sign = new \Bigbank\MobileId\SingleFileSigner;
 $sign->setOptions([

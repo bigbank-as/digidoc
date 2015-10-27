@@ -3,6 +3,7 @@ namespace Bigbank\MobileId\Request;
 
 use Bigbank\MobileId\IdException;
 use Bigbank\MobileId\SoapClient;
+use Bigbank\MobileId\SoapClientInterface;
 
 /**
  * Abstract base class for SOAP requests
@@ -14,6 +15,11 @@ abstract class AbstractRequest implements RequestInterface
      * @var SoapClient
      */
     protected $client;
+
+    public function __construct(SoapClientInterface $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * {@inheritdoc}
@@ -33,17 +39,6 @@ abstract class AbstractRequest implements RequestInterface
             );
         }
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function factory($apiUrl, array $options = [])
-    {
-
-        $this->client = new SoapClient($apiUrl, $options);
-        return $this;
-    }
-
 
     /**
      * @return string Returns the SOAP method name for the request
