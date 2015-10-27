@@ -133,8 +133,14 @@ class SingleFileSigner extends DigiDocServiceAbstract implements SingleFileSigne
     {
 
         $request  = new GetSignedDoc;
-        return $request->factory($this->apiUrl, $this->options)
+        $response =  $request->factory($this->apiUrl, $this->options)
             ->send(['Sesscode' => $this->sessCode]);
+
+        if (isset($response['SignedDocData'])) {
+            $response['SignedDocData'] = html_entity_decode($response['SignedDocData']);
+        }
+
+        return $response;
     }
 
     /**
