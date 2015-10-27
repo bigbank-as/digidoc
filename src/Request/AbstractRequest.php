@@ -25,14 +25,13 @@ abstract class AbstractRequest implements RequestInterface
         $arguments = array_values($arguments);
 
         try {
-            $response = call_user_func_array([$this->client, $this->getRequestName()], array_values($arguments));
+            return $this->callSoapMethod(array_values($arguments));
         } catch (\SoapFault $fault) {
             throw new IdException(
                 $fault->faultcode,
                 $fault->faultstring
             );
         }
-        return $response;
     }
 
     /**
@@ -54,5 +53,16 @@ abstract class AbstractRequest implements RequestInterface
 
         $reflectionClass = new \ReflectionClass($this);
         return $reflectionClass->getShortName();
+    }
+
+    /**
+     * @param array $arguments
+     *
+     * @return array
+     */
+    private function callSoapMethod(array $arguments)
+    {
+
+        return call_user_func_array([$this->client, $this->getRequestName()], $arguments);
     }
 }
