@@ -1,15 +1,15 @@
 <?php
-namespace Bigbank\MobileId\Request;
+namespace Bigbank\MobileId\Services;
 
-use Bigbank\MobileId\SoapClientInterface;
+use Bigbank\MobileId\Requests\GetMobileAuthenticateStatus;
+use Bigbank\MobileId\Requests\MobileAuthenticate;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ServiceProvider extends AbstractServiceProvider
 {
 
     protected $provides = [
-        MobileAuthenticate::class,
-        GetMobileAuthenticateStatus::class
+        AuthenticatorInterface::class
     ];
 
     /**
@@ -23,11 +23,9 @@ class ServiceProvider extends AbstractServiceProvider
     {
 
         $container = $this->getContainer();
+        $container->add(AuthenticatorInterface::class, Authenticator::class)
+            ->withArgument(MobileAuthenticate::class)
+            ->withArgument(GetMobileAuthenticateStatus::class);
 
-        foreach ($this->provides as $class) {
-            $container->add($class, $class)
-                ->withArgument(SoapClientInterface::class);
-        }
     }
-
 }

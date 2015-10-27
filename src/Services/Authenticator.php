@@ -1,7 +1,7 @@
 <?php
-namespace Bigbank\MobileId;
+namespace Bigbank\MobileId\Services;
 
-use Bigbank\MobileId\Request\RequestInterface;
+use Bigbank\MobileId\Requests\RequestInterface;
 
 /**
  * {@inheritdoc}

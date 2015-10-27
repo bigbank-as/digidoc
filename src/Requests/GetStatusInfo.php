@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId\Request;
+namespace Bigbank\MobileId\Requests;
 
 /**
  * Poll the status of the signing

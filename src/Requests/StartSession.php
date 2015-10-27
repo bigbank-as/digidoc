@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId\Request;
+namespace Bigbank\MobileId\Requests;
 
 /**
  * Start the two-step mobile ID signing process by sending a file

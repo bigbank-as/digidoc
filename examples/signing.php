@@ -2,7 +2,7 @@
 
 include '../vendor/autoload.php';
 
-$sign = new \Bigbank\MobileId\SingleFileSigner;
+$sign = new \Bigbank\MobileId\Services\SingleFileSigner;
 $sign->setOptions([
     'proxy_host' => 'cache.big.local',
     'proxy_port' => 3128
@@ -45,7 +45,7 @@ try {
     }
     die('Failure: timed out.');
 
-} catch (\Bigbank\MobileId\IdException $e) {
+} catch (\Bigbank\MobileId\Exceptions\IdException $e) {
     die(sprintf(
         'sk.ee service responded with an error of code %d. The message was: %s',
         $e->getCode(),

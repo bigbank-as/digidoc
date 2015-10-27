@@ -3,22 +3,6 @@ namespace Bigbank\MobileId;
 
 class SoapClient extends \SoapClient implements SoapClientInterface
 {
-
-    /**
-     * @var string
-     */
-    const URL_PRODUCTION = 'https://digidocservice.sk.ee/?wsdl';
-
-    /**
-     * @var string
-     */
-    const URL_TEST = 'https://tsp.demo.sk.ee?wsdl';
-
-    /**
-     * @var string
-     */
-    protected $apiUrl = self::URL_TEST;
-
     /**
      * @var array
      */
@@ -82,26 +66,5 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             return false;
         }
         return sprintf('%s:%d', $this->_proxy_host, $this->_proxy_port);
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setOptions(array $options)
-    {
-
-        $this->options = array_replace($this->options, $options);
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setApiUrl($apiUrl)
-    {
-
-        $this->apiUrl = $apiUrl;
-        return $this;
     }
 }

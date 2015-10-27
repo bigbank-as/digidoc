@@ -1,11 +1,11 @@
 <?php
-use Bigbank\MobileId\AuthenticatorInterface;
+use Bigbank\MobileId\Services\AuthenticatorInterface;
 
 putenv('HTTP_PROXY=http://cache.big.local:3128');
 
 include '../vendor/autoload.php';
 
-$mobileId = new \Bigbank\MobileId\MobileId;
+$mobileId = new \Bigbank\MobileId\MobileId(\Bigbank\MobileId\MobileId::URL_TEST);
 
 $auth = $mobileId->getService(AuthenticatorInterface::class);
 
@@ -33,7 +33,7 @@ try {
     }
     die('Failure: timed out.');
 
-} catch (\Bigbank\MobileId\IdException $e) {
+} catch (\Bigbank\MobileId\Exceptions\IdException $e) {
     die(sprintf(
         'sk.ee service responded with an error of code %d. The message was: %s',
         $e->getCode(),

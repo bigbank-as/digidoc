@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId;
+namespace Bigbank\MobileId\Services;
 
 /**
  * {@inheritdoc}

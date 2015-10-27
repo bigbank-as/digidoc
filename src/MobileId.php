@@ -2,9 +2,9 @@
 
 namespace Bigbank\MobileId;
 
-use Bigbank\MobileId\Request\GetMobileAuthenticateStatus;
-use Bigbank\MobileId\Request\MobileAuthenticate;
-use Bigbank\MobileId\Request\ServiceProvider;
+use Bigbank\MobileId\Requests\ServiceProvider as RequestServiceProvider;
+use Bigbank\MobileId\ServiceProvider as SystemServiceProvider;
+use Bigbank\MobileId\Services\ServiceProvider as ServiceProvider;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 
@@ -12,14 +12,24 @@ class MobileId
 {
 
     /**
+     * @var string
+     */
+    const URL_PRODUCTION = 'https://digidocservice.sk.ee/?wsdl';
+
+    /**
+     * @var string
+     */
+    const URL_TEST = 'https://tsp.demo.sk.ee?wsdl';
+
+    /**
      * @var ContainerInterface
      */
     protected $container;
 
-    public function __construct()
+    public function __construct($apiUrl, array $options = [])
     {
 
-        $this->container = $this->containerFactory();
+        $this->container = $this->containerFactory($apiUrl, $options);
     }
 
     public function getService($service)
@@ -28,29 +38,26 @@ class MobileId
         return $this->container->get($service);
     }
 
-    private function containerFactory()
+    private function containerFactory($apiUrl, array $options = [])
     {
 
         $container = new Container;
-        $container->add(SoapClientInterface::class, function () {
 
-            $options = [];
+        $systemServiceProvider = new SystemServiceProvider;
+        $systemServiceProvider->setApiUrl($apiUrl)
+            ->setOptions($options);
 
-            $proxy = getenv('HTTP_PROXY') ?: null;
-
-            if ($proxy) {
-                $options['proxy_host'] = parse_url($proxy, PHP_URL_HOST);
-                $options['proxy_port'] = parse_url($proxy, PHP_URL_PORT);
-            }
-            return new SoapClient(SoapClient::URL_TEST, $options);
-        });
-
-      $container->addServiceProvider(ServiceProvider::class);
-
-        $container->add(AuthenticatorInterface::class, Authenticator::class)
-            ->withArgument(MobileAuthenticate::class)
-            ->withArgument(GetMobileAuthenticateStatus::class);
+        $container->addServiceProvider($systemServiceProvider)
+            ->addServiceProvider(RequestServiceProvider::class)
+            ->addServiceProvider(ServiceProvider::class);
 
         return $container;
+    }
+
+
+    public function getContainer()
+    {
+
+        return $this->container;
     }
 }

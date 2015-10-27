@@ -1,7 +1,7 @@
 <?php
-namespace Bigbank\MobileId\Request;
+namespace Bigbank\MobileId\Requests;
 
-use Bigbank\MobileId\IdException;
+use Bigbank\MobileId\Exceptions\IdException;
 use Bigbank\MobileId\SoapClient;
 use Bigbank\MobileId\SoapClientInterface;
 
