@@ -9,6 +9,7 @@ $auth->setOptions([
 
 $userPhone  = '+37200007';
 $userIdCode = '14212128025';
+
 try {
     echo sprintf("Trying to authenticate person with ID code %s, phone %s...\n", $userIdCode, $userPhone);
 
@@ -37,6 +38,3 @@ try {
         $e->getMessage()
     ));
 }
-
-
-exit;
