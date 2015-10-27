@@ -4,7 +4,7 @@ namespace Bigbank\MobileId;
 /**
  * {@inheritdoc}
  */
-class DigiDocServiceAbstract implements DigiDocServiceInterface
+class AbstractDigiDocService implements DigiDocServiceInterface
 {
 
     /**
@@ -15,7 +15,7 @@ class DigiDocServiceAbstract implements DigiDocServiceInterface
     /**
      * @var string
      */
-    const URL_TEST = 'https://tsp.demo.sk.ee?WSDL';
+    const URL_TEST = 'https://tsp.demo.sk.ee?wsdl';
 
     /**
      * @var string
