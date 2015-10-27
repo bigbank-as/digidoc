@@ -1,32 +1,14 @@
 <?php
 namespace Bigbank\MobileId;
 
-
 use Bigbank\MobileId\Request\GetMobileAuthenticateStatus;
 use Bigbank\MobileId\Request\MobileAuthenticate;
 
 /**
  * {@inheritdoc}
  */
-class Authenticator implements AuthenticatorInterface
+class Authenticator extends DigiDocServiceAbstract implements AuthenticatorInterface
 {
-
-    const URL_PRODUCTION = 'https://digidocservice.sk.ee/?wsdl';
-    const URL_TEST = 'https://tsp.demo.sk.ee?WSDL';
-
-    /**
-     * @var string
-     */
-    protected $apiUrl = self::URL_TEST;
-
-    /**
-     * @var array
-     */
-    protected $options = [
-        'exceptions' => true,
-        'proxy_host' => null,
-        'proxy_port' => null
-    ];
 
     /**
      * {@inheritdoc}
@@ -61,7 +43,6 @@ class Authenticator implements AuthenticatorInterface
         return $response;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -71,25 +52,5 @@ class Authenticator implements AuthenticatorInterface
         $status = $this->askStatus($sessionCode);
 
         return $status['Status'] === 'USER_AUTHENTICATED';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setOptions(array $options)
-    {
-
-        $this->options = array_replace($this->options, $options);
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setApiUrl($apiUrl)
-    {
-
-        $this->apiUrl = $apiUrl;
-        return $this;
     }
 }

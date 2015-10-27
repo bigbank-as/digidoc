@@ -1,11 +1,10 @@
 <?php
 namespace Bigbank\MobileId;
 
-
 /**
  * Authenticate against the mobile ID API
  */
-interface AuthenticatorInterface
+interface AuthenticatorInterface extends DigiDocServiceInterface
 {
 
     /**
@@ -24,20 +23,6 @@ interface AuthenticatorInterface
      * @return array
      */
     public function askStatus($sessionCode);
-
-    /**
-     * @param array $options
-     *
-     * @return $this
-     */
-    public function setOptions(array $options);
-
-    /**
-     * @param string $apiUrl
-     *
-     * @return $this
-     */
-    public function setApiUrl($apiUrl);
 
     /**
      * @param string $sessionCode
