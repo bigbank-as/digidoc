@@ -64,16 +64,8 @@ class SingleFileSigner extends DigiDocServiceAbstract implements SingleFileSigne
     protected function startSession($fileData)
     {
 
-        $xml = '<DataFile>'
-            . '<Id xsi:type="xsd:string"></Id>'
-            . '<Filename xsi:type="xsd:string">%s</Filename>'
-            . '<MimeType xsi:type="xsd:string">%s</MimeType>'
-            . '<ContentType xsi:type="xsd:string">%s</ContentType>'
-            . '<Size xsi:type="xsd:int">%s</Size>'
-            . '<DfData xsi:type="xsd:string">%s</DfData>'
-            . '</DataFile>';
-
-        $xml = '<DataFile xmlns="http://www.sk.ee/DigiDoc/v1.3.0#" Id="" Filename="%s" MimeType="%s" ContentType="%s" Size="%s">%s</DataFile>';
+        $xml = '<DataFile xmlns="http://www.sk.ee/DigiDoc/v1.3.0#" Id="" '
+            . 'Filename="%s" MimeType="%s" ContentType="%s" Size="%s">%s</DataFile>';
 
         $arguments = [
             'datafile' => sprintf(
