@@ -10,7 +10,7 @@ use Bigbank\MobileId\Request\CloseSession;
 /**
  * {@inheritdoc}
  */
-class SingleFileSigner extends DigiDocServiceAbstract implements SingleFileSignerInterface
+class SingleFileSigner extends AbstractDigiDocService implements SingleFileSignerInterface
 {
 
     /**

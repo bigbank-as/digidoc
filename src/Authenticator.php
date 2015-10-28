@@ -7,7 +7,7 @@ use Bigbank\MobileId\Request\MobileAuthenticate;
 /**
  * {@inheritdoc}
  */
-class Authenticator extends DigiDocServiceAbstract implements AuthenticatorInterface
+class Authenticator extends AbstractDigiDocService implements AuthenticatorInterface
 {
 
     /**
