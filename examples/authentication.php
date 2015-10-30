@@ -3,8 +3,6 @@ use Bigbank\DigiDoc\Exceptions\IdException;
 use Bigbank\DigiDoc\DigiDoc;
 use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 
-putenv('HTTP_PROXY=http://cache.big.local:3128');
-
 include '../vendor/autoload.php';
 
 $mobileId = new DigiDoc(DigiDoc::URL_TEST);
