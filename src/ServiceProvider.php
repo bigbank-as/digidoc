@@ -1,7 +1,7 @@
 <?php
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\Soap\ProxyClient;
+use Bigbank\DigiDoc\Soap\ProxyAwareClient;
 use Bigbank\DigiDoc\Soap\SoapClient;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -43,7 +43,7 @@ class ServiceProvider extends AbstractServiceProvider
                 $this->options['proxy_port'] = parse_url($proxy, PHP_URL_PORT);
             }
 
-            return new ProxyClient($this->apiUrl, $this->options);
+            return new ProxyAwareClient($this->apiUrl, $this->options);
         });
     }
 

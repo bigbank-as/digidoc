@@ -1,7 +1,7 @@
 <?php
 namespace Bigbank\DigiDoc\Soap;
 
-class ProxyClient extends \SoapClient implements SoapClient
+class ProxyAwareClient extends \SoapClient implements SoapClient
 {
     /**
      * @var array
