@@ -20,7 +20,6 @@ class Authenticator extends AbstractDigiDocService implements AuthenticatorInter
      */
     private $getMobileAuthenticateStatus;
 
-
     /**
      * @param RequestInterface $mobileAuthenticate
      * @param RequestInterface $getMobileAuthenticateStatus

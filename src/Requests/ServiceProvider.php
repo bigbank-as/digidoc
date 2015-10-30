@@ -1,7 +1,7 @@
 <?php
 namespace Bigbank\DigiDoc\Requests;
 
-use Bigbank\DigiDoc\SoapClientInterface;
+use Bigbank\DigiDoc\Soap\SoapClient;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ServiceProvider extends AbstractServiceProvider
@@ -26,7 +26,7 @@ class ServiceProvider extends AbstractServiceProvider
 
         foreach ($this->provides as $class) {
             $container->add($class, $class)
-                ->withArgument(SoapClientInterface::class);
+                ->withArgument(SoapClient::class);
         }
     }
 }

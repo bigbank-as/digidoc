@@ -2,8 +2,7 @@
 namespace Bigbank\DigiDoc\Requests;
 
 use Bigbank\DigiDoc\Exceptions\IdException;
-use Bigbank\DigiDoc\SoapClient;
-use Bigbank\DigiDoc\SoapClientInterface;
+use Bigbank\DigiDoc\Soap\SoapClient;
 
 /**
  * Abstract base class for SOAP requests
@@ -16,7 +15,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     protected $client;
 
-    public function __construct(SoapClientInterface $client)
+    public function __construct(SoapClient $client)
     {
         $this->client = $client;
     }

@@ -1,13 +1,15 @@
 <?php
 namespace Bigbank\DigiDoc;
 
+use Bigbank\DigiDoc\Soap\ProxyClient;
+use Bigbank\DigiDoc\Soap\SoapClient;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ServiceProvider extends AbstractServiceProvider
 {
 
     protected $provides = [
-        SoapClientInterface::class
+        SoapClient::class
     ];
 
     /**
@@ -32,7 +34,7 @@ class ServiceProvider extends AbstractServiceProvider
 
         $container = $this->getContainer();
 
-        $container->add(SoapClientInterface::class, function () {
+        $container->add(SoapClient::class, function () {
 
             $proxy = getenv('HTTP_PROXY') ?: null;
 
@@ -41,7 +43,7 @@ class ServiceProvider extends AbstractServiceProvider
                 $this->options['proxy_port'] = parse_url($proxy, PHP_URL_PORT);
             }
 
-            return new SoapClient($this->apiUrl, $this->options);
+            return new ProxyClient($this->apiUrl, $this->options);
         });
     }
 
