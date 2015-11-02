@@ -2,9 +2,7 @@
 
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\Requests\ServiceProvider as RequestServiceProvider;
-use Bigbank\DigiDoc\ServiceProvider as SystemServiceProvider;
-use Bigbank\DigiDoc\Services\ServiceProvider as ServiceProvider;
+use Bigbank\DigiDoc\ServiceProvider as ServiceProvider;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 
@@ -59,13 +57,11 @@ class DigiDoc implements DigiDocInterface
 
         $container = new Container;
 
-        $systemServiceProvider = new SystemServiceProvider;
+        $systemServiceProvider = new ServiceProvider;
         $systemServiceProvider->setApiUrl($apiUrl)
             ->setOptions($options);
 
-        $container->addServiceProvider($systemServiceProvider)
-            ->addServiceProvider(RequestServiceProvider::class)
-            ->addServiceProvider(ServiceProvider::class);
+        $container->addServiceProvider($systemServiceProvider);
 
         return $container;
     }

@@ -1,6 +1,10 @@
 <?php
 namespace Bigbank\DigiDoc;
 
+use Bigbank\DigiDoc\Requests\GetMobileAuthenticateStatus;
+use Bigbank\DigiDoc\Requests\MobileAuthenticate;
+use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Soap\ProxyAwareClient;
 use Bigbank\DigiDoc\Soap\SoapClient;
 use League\Container\ServiceProvider\AbstractServiceProvider;
@@ -9,7 +13,10 @@ class ServiceProvider extends AbstractServiceProvider
 {
 
     protected $provides = [
-        SoapClient::class
+        SoapClient::class,
+        AuthenticatorInterface::class,
+        MobileAuthenticate::class,
+        GetMobileAuthenticateStatus::class
     ];
 
     /**
@@ -45,6 +52,17 @@ class ServiceProvider extends AbstractServiceProvider
 
             return new ProxyAwareClient($this->apiUrl, $this->options);
         });
+
+        $container->add(AuthenticatorInterface::class, Authenticator::class)
+            ->withArgument(MobileAuthenticate::class)
+            ->withArgument(GetMobileAuthenticateStatus::class);
+
+
+        $container->add(MobileAuthenticate::class, MobileAuthenticate::class)
+            ->withArgument(SoapClient::class);
+        $container->add(GetMobileAuthenticateStatus::class, GetMobileAuthenticateStatus::class)
+            ->withArgument(SoapClient::class);
+
     }
 
     public function setApiUrl($apiUrl)
