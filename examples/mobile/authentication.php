@@ -1,0 +1,33 @@
+<?php
+use Bigbank\DigiDoc\DigiDoc;
+use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+
+include '../../vendor/autoload.php';
+
+$mobileId = new DigiDoc(DigiDoc::URL_TEST);
+
+/** @var Authenticator $authenticator */
+$authenticator = $mobileId->getService(Authenticator::class);
+
+echo sprintf("Trying to authenticate ...\n");
+$response = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'Message');
+
+echo sprintf(
+    "Authentication code sent to %s %s, waiting for confirmation (< 4min)...\n\n",
+    $response['UserGivenname'],
+    $response['UserSurname']
+);
+
+$callback = function ($status) {
+
+    if ($status == 'USER_AUTHENTICATED') {
+        return "\nAuthentication OK";
+    }
+
+    return 'Failure. Status was ' . $status;
+};
+
+$message = $authenticator->waitForAuthentication($response['Sesscode'], $callback);
+
+echo $message;
+

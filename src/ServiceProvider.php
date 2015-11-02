@@ -1,11 +1,10 @@
 <?php
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\Requests\GetMobileAuthenticateStatus;
-use Bigbank\DigiDoc\Requests\MobileAuthenticate;
+use Bigbank\DigiDoc\Services\MobileId\DefaultAuthenticator;
 use Bigbank\DigiDoc\Services\MobileId\Authenticator;
-use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
-use Bigbank\DigiDoc\Soap\ProxyAwareClient;
+use Bigbank\DigiDoc\Soap\DigiDocService;
+use Bigbank\DigiDoc\Soap\SkDigiDoc;
 use Bigbank\DigiDoc\Soap\SoapClient;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -14,9 +13,7 @@ class ServiceProvider extends AbstractServiceProvider
 
     protected $provides = [
         SoapClient::class,
-        AuthenticatorInterface::class,
-        MobileAuthenticate::class,
-        GetMobileAuthenticateStatus::class
+        Authenticator::class
     ];
 
     /**
@@ -41,7 +38,7 @@ class ServiceProvider extends AbstractServiceProvider
 
         $container = $this->getContainer();
 
-        $container->add(SoapClient::class, function () {
+        $container->add(DigiDocService::class, function () {
 
             $proxy = getenv('HTTP_PROXY') ?: null;
 
@@ -50,21 +47,19 @@ class ServiceProvider extends AbstractServiceProvider
                 $this->options['proxy_port'] = parse_url($proxy, PHP_URL_PORT);
             }
 
-            return new ProxyAwareClient($this->apiUrl, $this->options);
+            return new SkDigiDoc($this->options,$this->apiUrl);
         });
 
-        $container->add(AuthenticatorInterface::class, Authenticator::class)
-            ->withArgument(MobileAuthenticate::class)
-            ->withArgument(GetMobileAuthenticateStatus::class);
-
-
-        $container->add(MobileAuthenticate::class, MobileAuthenticate::class)
-            ->withArgument(SoapClient::class);
-        $container->add(GetMobileAuthenticateStatus::class, GetMobileAuthenticateStatus::class)
-            ->withArgument(SoapClient::class);
+        $container->add(Authenticator::class, DefaultAuthenticator::class)
+            ->withArgument(DigiDocService::class);
 
     }
 
+    /**
+     * @param string $apiUrl
+     *
+     * @return $this
+     */
     public function setApiUrl($apiUrl)
     {
 
@@ -72,11 +67,15 @@ class ServiceProvider extends AbstractServiceProvider
         return $this;
     }
 
+    /**
+     * @param array $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
 
         $this->options = $options;
         return $this;
-
     }
 }

@@ -1,74 +1,36 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
-use Bigbank\DigiDoc\Requests\RequestInterface;
-use Bigbank\DigiDoc\Services\AbstractDigiDocService;
+use Bigbank\DigiDoc\Services\DigiDocServiceInterface;
 
 /**
- * {@inheritdoc}
+ * Authenticate against the mobile ID API
  */
-class Authenticator extends AbstractDigiDocService implements AuthenticatorInterface
+interface Authenticator extends DigiDocServiceInterface
 {
 
     /**
-     * @var RequestInterface
+     * @param string $idCode
+     * @param string $phoneNumber
+     * @param string $serviceName
+     * @param string $messageToDisplay
+     *
+     * @return array
      */
-    private $mobileAuthenticate;
+    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay);
 
     /**
-     * @var RequestInterface
+     * @param string $sessionCode
+     *
+     * @return array
      */
-    private $getMobileAuthenticateStatus;
+    public function askStatus($sessionCode);
 
     /**
-     * @param RequestInterface $mobileAuthenticate
-     * @param RequestInterface $getMobileAuthenticateStatus
+     * @param string $sessionCode
+     * @param callable $callback
+     *
+     * @return mixed
      */
-    public function __construct(
-        RequestInterface $mobileAuthenticate,
-        RequestInterface $getMobileAuthenticateStatus
-    ) {
-
-        $this->mobileAuthenticate          = $mobileAuthenticate;
-        $this->getMobileAuthenticateStatus = $getMobileAuthenticateStatus;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay)
-    {
-
-        $arguments = [
-            'IDCode'           => $idCode,
-            'PhoneNo'          => $phoneNumber,
-            'ServiceName'      => $serviceName,
-            'MessageToDisplay' => $messageToDisplay
-        ];
-
-        $response = $this->mobileAuthenticate->send($arguments);
-
-        return $response;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function askStatus($sessionCode)
-    {
-
-        $response = $this->getMobileAuthenticateStatus->send(['Sesscode' => $sessionCode]);
-        return $response;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAuthenticated($sessionCode)
-    {
-
-        $status = $this->askStatus($sessionCode);
-
-        return $status['Status'] === 'USER_AUTHENTICATED';
-    }
+    public function waitForAuthentication($sessionCode, callable $callback);
 }
