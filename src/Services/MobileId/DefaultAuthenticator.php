@@ -13,7 +13,7 @@ class DefaultAuthenticator extends AbstractDigiDocService implements Authenticat
     /**
      * @var int
      */
-    protected $pollingFrequency = 1;
+    protected $pollingFrequency = 3;
 
     /**
      * {@inheritdoc}

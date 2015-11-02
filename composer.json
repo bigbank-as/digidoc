@@ -18,6 +18,12 @@
     "wsdl2phpgenerator/wsdl2phpgenerator": "~3"
   },
   "scripts": {
-    "post-update-cmd": "bin/wsdl_generator"
+    "post-update-cmd": "bin/wsdl_generator",
+    "test": "phpunit"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
   }
 }

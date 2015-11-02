@@ -4,13 +4,13 @@ use Bigbank\DigiDoc\Services\MobileId\Authenticator;
 
 include '../../vendor/autoload.php';
 
-$mobileId = new DigiDoc(DigiDoc::URL_TEST);
+$digiDocService = new DigiDoc(DigiDoc::URL_TEST);
 
 /** @var Authenticator $authenticator */
-$authenticator = $mobileId->getService(Authenticator::class);
+$authenticator = $digiDocService->getService(Authenticator::class);
 
-echo sprintf("Trying to authenticate ...\n");
-$response = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'Message');
+echo sprintf("Trying to authenticate...\n");
+$response = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'White House');
 
 echo sprintf(
     "Authentication code sent to %s %s, waiting for confirmation (< 4min)...\n\n",

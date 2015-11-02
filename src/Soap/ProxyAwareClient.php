@@ -3,6 +3,9 @@ namespace Bigbank\DigiDoc\Soap;
 
 use Bigbank\DigiDoc\Exceptions\IdException;
 
+/**
+ * A SOAP client that handles HTTP(S) proxy correctly
+ */
 class ProxyAwareClient extends \SoapClient implements SoapClient
 {
     /**

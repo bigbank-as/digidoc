@@ -66,7 +66,6 @@ class DigiDoc implements DigiDocInterface
         return $container;
     }
 
-
     /**
      * {@inheritdoc}
      */

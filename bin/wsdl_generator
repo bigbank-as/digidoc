@@ -8,8 +8,8 @@ use Wsdl2PhpGenerator\Generator;
 require 'vendor/autoload.php';
 
 echo sprintf(
-    "Generating WSDL files from DigiDoc service (%s).
-This happens as part of the Composer post-update hook and requires an active internet connection.",
+    "Generating WSDL files from DigiDoc service (%s)." .
+    "This happens as part of the Composer post-update hook and requires an active internet connection.",
     DigiDoc::URL_TEST
 );
 

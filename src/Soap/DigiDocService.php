@@ -5,7 +5,6 @@ namespace Bigbank\DigiDoc\Soap;
 interface DigiDocService
 {
 
-
     /**
      * Service definition of function d__MobileAuthenticate
      *

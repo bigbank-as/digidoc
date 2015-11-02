@@ -6,9 +6,8 @@ use Bigbank\DigiDoc\Soap\DigiDocService;
 /**
  * {@inheritdoc}
  */
-class AbstractDigiDocService implements DigiDocServiceInterface
+abstract class AbstractDigiDocService
 {
-
 
     /**
      * @var DigiDocService
