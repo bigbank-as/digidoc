@@ -14,7 +14,10 @@ class StartSession extends AbstractRequest
     {
 
         return [
-            'datafile' => null
+            'SigningProfile' => '',
+            'SigDocXML'      => '',
+            'bHoldSession'   => true,
+            'datafile'       => null
         ];
     }
 }

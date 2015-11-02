@@ -5,7 +5,7 @@ use Bigbank\MobileId\IdException;
 use Bigbank\MobileId\SoapClient;
 
 /**
- * Abstract base class for SOAP requests
+ * {@inheritdoc}
  */
 abstract class AbstractRequest implements RequestInterface
 {
@@ -18,7 +18,7 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * {@inheritdoc}
      */
-    public function send(array $arguments)
+    public function send(array $arguments = [])
     {
 
         $arguments = array_replace($this->getDefaultArguments(), $arguments);
@@ -44,7 +44,6 @@ abstract class AbstractRequest implements RequestInterface
         $this->client = new SoapClient($apiUrl, $options);
         return $this;
     }
-
 
     /**
      * @return string Returns the SOAP method name for the request

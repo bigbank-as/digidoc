@@ -2,9 +2,9 @@
 namespace Bigbank\MobileId\Request;
 
 /**
- * Terminates and clears the session
+ *
  */
-class CloseSession extends AbstractRequest
+class CreateSignedDoc extends AbstractRequest
 {
 
     /**
@@ -14,7 +14,9 @@ class CloseSession extends AbstractRequest
     {
 
         return [
-            'Sesscode' => null
+            'Sesscode' => '',
+            'Format'   => 'BDOC',
+            'Version'  => '2.1'
         ];
     }
 }

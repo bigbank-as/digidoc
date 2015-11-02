@@ -2,7 +2,7 @@
 
 include 'vendor/autoload.php';
 
-$sign = new \Bigbank\MobileId\SingleFileSigner;
+$sign = new \Bigbank\MobileId\FileSigner;
 $sign->setOptions([
     'proxy_host' => 'cache.big.local',
     'proxy_port' => 3128
@@ -10,16 +10,24 @@ $sign->setOptions([
 
 $userPhone  = '+37200007';
 $userIdCode = '14212128025';
-$fileData = [
-    'fileName' => 'contract.pdf',
-    'fileType' => 'application/pdf',
+$fileData   = [
+    'fileName'    => 'contract.pdf',
+    'fileType'    => 'application/pdf',
     'fileContent' => file_get_contents('base64.example.txt')
 ];
 
 try {
     echo sprintf("Trying to sign a document with ID code %s, phone %s...\n", $userIdCode, $userPhone);
 
-    $response = $sign->startSigning($fileData, $userIdCode, $userPhone, 'Testimine', 'Message');
+    $sign->startSession();
+
+    echo 'Adding file...' . "\n\n\n";
+
+    $sign->addFile($fileData['fileName'], $fileData['fileType'], $fileData['fileContent']);
+
+    echo 'Signing...' . "\n\n\n";
+
+    $response = $sign->sign($userIdCode, $userPhone, 'Testimine', 'Message');
 
     echo sprintf(
         "Challenge ID %s is sent, waiting for a signature...\n\n",
@@ -30,10 +38,10 @@ try {
 
         $status = $sign->getStatus($response['Sesscode']);
 
-        if ($response['StatusCode'] === 'SIGNATURE') {
+        if ($status['StatusCode'] === 'SIGNATURE') {
             echo '-----FILE-----' . "\n\n\n";
 
-            echo $response['SignedDocData'];
+            echo $status['SignedDocData'];
 
             echo "\n\n\n" . '------EOF-----';
 
@@ -41,7 +49,7 @@ try {
         }
 
         echo '.';
-        sleep(1);
+        sleep(4);
     }
     die('Failure: timed out.');
 

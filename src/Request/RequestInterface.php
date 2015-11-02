@@ -1,6 +1,9 @@
 <?php
 namespace Bigbank\MobileId\Request;
 
+/**
+ * Abstract base class for SOAP requests
+ */
 interface RequestInterface
 {
 
@@ -11,7 +14,7 @@ interface RequestInterface
      *
      * @return array Array of response data from the remote API
      */
-    public function send(array $arguments);
+    public function send(array $arguments = []);
 
     /**
      * Get default arguments and values for the current request
