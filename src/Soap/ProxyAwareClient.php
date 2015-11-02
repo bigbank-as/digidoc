@@ -1,8 +1,21 @@
 <?php
-namespace Bigbank\MobileId;
+namespace Bigbank\DigiDoc\Soap;
 
-class SoapClient extends \SoapClient
+use Bigbank\DigiDoc\Exceptions\IdException;
+
+/**
+ * A SOAP client that handles HTTP(S) proxy correctly
+ */
+class ProxyAwareClient extends \SoapClient implements SoapClient
 {
+    /**
+     * @var array
+     */
+    protected $options = [
+        'exceptions' => true,
+        'proxy_host' => null,
+        'proxy_port' => null
+    ];
 
     /**
      * @param string $url
@@ -59,4 +72,24 @@ class SoapClient extends \SoapClient
         }
         return sprintf('%s:%d', $this->_proxy_host, $this->_proxy_port);
     }
+
+    public function __soapCall(
+        $function_name,
+        array $arguments,
+        array $options = null,
+        $input_headers = null,
+        array &$output_headers = null
+    ) {
+
+        try {
+        return parent::__soapCall($function_name, $arguments, $options, $input_headers, $output_headers);
+        } catch (\SoapFault $fault) {
+            throw new IdException(
+                $fault->faultcode,
+                $fault->faultstring
+            );
+        }
+    }
+
+
 }

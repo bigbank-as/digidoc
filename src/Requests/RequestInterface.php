@@ -1,5 +1,5 @@
 <?php
-namespace Bigbank\MobileId\Request;
+namespace Bigbank\DigiDoc\Requests;
 
 interface RequestInterface
 {
@@ -22,14 +22,4 @@ interface RequestInterface
      * @return array
      */
     public function getDefaultArguments();
-
-    /**
-     * Construct a new SOAP client instance
-     *
-     * @param string $apiUrl
-     * @param array $options
-     *
-     * @return mixed
-     */
-    public function factory($apiUrl,array $options =[]);
 }
