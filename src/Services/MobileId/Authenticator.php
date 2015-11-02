@@ -27,8 +27,8 @@ interface Authenticator extends DigiDocServiceInterface
     public function askStatus($sessionCode);
 
     /**
-     * @param string $sessionCode
-     * @param callable $callback
+     * @param string $sessionCode DigiDoc service session code that is returned by `authenticate` method
+     * @param callable $callback Callback function to call once authentication status changes
      *
      * @return mixed
      */

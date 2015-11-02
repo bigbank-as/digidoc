@@ -46,6 +46,4 @@ interface DigiDocService
      * @return list(string $Status, string $Signature)
      */
     public function GetMobileAuthenticateStatus($Sesscode, $WaitSignature);
-
-
 }

@@ -17,5 +17,7 @@
   "require-dev": {
     "wsdl2phpgenerator/wsdl2phpgenerator": "~3"
   },
-  "bin":["bin/wsdl_generator"]
+  "scripts": {
+    "post-update-cmd": "bin/wsdl_generator"
+  }
 }

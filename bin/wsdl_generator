@@ -1,9 +1,17 @@
+#!/usr/bin/env php
+
 <?php
 use Bigbank\DigiDoc\DigiDoc;
 use Wsdl2PhpGenerator\Config;
 use Wsdl2PhpGenerator\Generator;
 
 require 'vendor/autoload.php';
+
+echo sprintf(
+    "Generating WSDL files from DigiDoc service (%s).
+This happens as part of the Composer post-update hook and requires an active internet connection.",
+    DigiDoc::URL_TEST
+);
 
 $generator = new Generator;
 $config    = new Config([
