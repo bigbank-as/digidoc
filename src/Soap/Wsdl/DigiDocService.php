@@ -2,6 +2,7 @@
 
 namespace Bigbank\DigiDoc\Soap\Wsdl;
 
+
 /**
  * Digital signature service
  */

@@ -5,7 +5,7 @@ use Bigbank\DigiDoc\DigiDoc;
 use Wsdl2PhpGenerator\Config;
 use Wsdl2PhpGenerator\Generator;
 
-require '../vendor/autoload.php';
+require './vendor/autoload.php';
 
 echo sprintf(
     "Generating WSDL files from DigiDoc service (%s)." .
@@ -22,7 +22,8 @@ $config    = new Config([
     'sharedTypes'     => true,
     // 'soapClientClass' value must begin with a leading namespace class
     // otherwise the generated class uses a relative namespace which won't resolve
-    'soapClientClass' => '\Bigbank\DigiDoc\Soap\ProxyAwareClient'
+    'soapClientClass' => '\Bigbank\DigiDoc\Soap\ProxyAwareClient',
+    'constructorParamsDefaultToNull' => true
 ]);
 
 $generator->generate($config);

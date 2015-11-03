@@ -23,7 +23,7 @@ class RevokedInfo
     /**
      * @param int $Sequence
      */
-    public function __construct($Sequence)
+    public function __construct($Sequence = null)
     {
       $this->Sequence = $Sequence;
     }
