@@ -55,7 +55,8 @@ class TstInfo
      */
     public function __construct($Ordered = null)
     {
-      $this->Ordered = $Ordered;
+
+        $this->Ordered = $Ordered;
     }
 
     /**
@@ -63,17 +64,20 @@ class TstInfo
      */
     public function getId()
     {
-      return $this->Id;
+
+        return $this->Id;
     }
 
     /**
      * @param string $Id
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setId($Id)
     {
-      $this->Id = $Id;
-      return $this;
+
+        $this->Id = $Id;
+        return $this;
     }
 
     /**
@@ -81,17 +85,20 @@ class TstInfo
      */
     public function getType()
     {
-      return $this->Type;
+
+        return $this->Type;
     }
 
     /**
      * @param string $Type
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setType($Type)
     {
-      $this->Type = $Type;
-      return $this;
+
+        $this->Type = $Type;
+        return $this;
     }
 
     /**
@@ -99,17 +106,20 @@ class TstInfo
      */
     public function getSerialNumber()
     {
-      return $this->SerialNumber;
+
+        return $this->SerialNumber;
     }
 
     /**
      * @param string $SerialNumber
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setSerialNumber($SerialNumber)
     {
-      $this->SerialNumber = $SerialNumber;
-      return $this;
+
+        $this->SerialNumber = $SerialNumber;
+        return $this;
     }
 
     /**
@@ -117,29 +127,32 @@ class TstInfo
      */
     public function getCreationTime()
     {
-      if ($this->CreationTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->CreationTime);
-        } catch (\Exception $e) {
-          return false;
+
+        if ($this->CreationTime == null) {
+            return null;
+        } else {
+            try {
+                return new \DateTime($this->CreationTime);
+            } catch (\Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $CreationTime
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setCreationTime(\DateTime $CreationTime = null)
     {
-      if ($CreationTime == null) {
-       $this->CreationTime = null;
-      } else {
-        $this->CreationTime = $CreationTime->format(\DateTime::ATOM);
-      }
-      return $this;
+
+        if ($CreationTime == null) {
+            $this->CreationTime = null;
+        } else {
+            $this->CreationTime = $CreationTime->format(\DateTime::ATOM);
+        }
+        return $this;
     }
 
     /**
@@ -147,17 +160,20 @@ class TstInfo
      */
     public function getPolicy()
     {
-      return $this->Policy;
+
+        return $this->Policy;
     }
 
     /**
      * @param string $Policy
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setPolicy($Policy)
     {
-      $this->Policy = $Policy;
-      return $this;
+
+        $this->Policy = $Policy;
+        return $this;
     }
 
     /**
@@ -165,17 +181,20 @@ class TstInfo
      */
     public function getErrorBound()
     {
-      return $this->ErrorBound;
+
+        return $this->ErrorBound;
     }
 
     /**
      * @param string $ErrorBound
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setErrorBound($ErrorBound)
     {
-      $this->ErrorBound = $ErrorBound;
-      return $this;
+
+        $this->ErrorBound = $ErrorBound;
+        return $this;
     }
 
     /**
@@ -183,17 +202,20 @@ class TstInfo
      */
     public function getOrdered()
     {
-      return $this->Ordered;
+
+        return $this->Ordered;
     }
 
     /**
      * @param boolean $Ordered
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setOrdered($Ordered)
     {
-      $this->Ordered = $Ordered;
-      return $this;
+
+        $this->Ordered = $Ordered;
+        return $this;
     }
 
     /**
@@ -201,17 +223,20 @@ class TstInfo
      */
     public function getTSA()
     {
-      return $this->TSA;
+
+        return $this->TSA;
     }
 
     /**
      * @param string $TSA
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setTSA($TSA)
     {
-      $this->TSA = $TSA;
-      return $this;
+
+        $this->TSA = $TSA;
+        return $this;
     }
 
     /**
@@ -219,17 +244,20 @@ class TstInfo
      */
     public function getCertificate()
     {
-      return $this->Certificate;
+
+        return $this->Certificate;
     }
 
     /**
      * @param CertificateInfo $Certificate
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\TstInfo
      */
     public function setCertificate($Certificate)
     {
-      $this->Certificate = $Certificate;
-      return $this;
+
+        $this->Certificate = $Certificate;
+        return $this;
     }
 
 }

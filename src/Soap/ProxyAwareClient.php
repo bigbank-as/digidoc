@@ -19,6 +19,21 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
     ];
 
     /**
+     * @param string $request
+     * @param string $location
+     * @param string $action
+     * @param int    $version
+     * @param int    $one_way
+     *
+     * @return string
+     */
+    public function __doRequest($request, $location, $action, $version, $one_way = 0)
+    {
+
+        return $this->callCurl($location, $request, $action);
+    }
+
+    /**
      * @param string $url
      * @param string $data
      * @param string $action
@@ -48,21 +63,6 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
     }
 
     /**
-     * @param string $request
-     * @param string $location
-     * @param string $action
-     * @param int    $version
-     * @param int    $one_way
-     *
-     * @return string
-     */
-    public function __doRequest($request, $location, $action, $version, $one_way = 0)
-    {
-
-        return $this->callCurl($location, $request, $action);
-    }
-
-    /**
      * @return bool|string
      */
     protected function getProxyString()
@@ -82,7 +82,7 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
      * @param array|null $output_headers
      *
      * @return array
-     * @throws IdException
+     * @throws DigiDocException
      */
     public function __soapCall(
         $function_name,

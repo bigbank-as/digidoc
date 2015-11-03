@@ -25,10 +25,10 @@ class SignedDocInfo
      */
     protected $SignatureInfo = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -36,17 +36,20 @@ class SignedDocInfo
      */
     public function getFormat()
     {
-      return $this->Format;
+
+        return $this->Format;
     }
 
     /**
      * @param string $Format
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignedDocInfo
      */
     public function setFormat($Format)
     {
-      $this->Format = $Format;
-      return $this;
+
+        $this->Format = $Format;
+        return $this;
     }
 
     /**
@@ -54,17 +57,20 @@ class SignedDocInfo
      */
     public function getVersion()
     {
-      return $this->Version;
+
+        return $this->Version;
     }
 
     /**
      * @param string $Version
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignedDocInfo
      */
     public function setVersion($Version)
     {
-      $this->Version = $Version;
-      return $this;
+
+        $this->Version = $Version;
+        return $this;
     }
 
     /**
@@ -72,17 +78,20 @@ class SignedDocInfo
      */
     public function getDataFileInfo()
     {
-      return $this->DataFileInfo;
+
+        return $this->DataFileInfo;
     }
 
     /**
      * @param DataFileInfo[] $DataFileInfo
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignedDocInfo
      */
     public function setDataFileInfo(array $DataFileInfo = null)
     {
-      $this->DataFileInfo = $DataFileInfo;
-      return $this;
+
+        $this->DataFileInfo = $DataFileInfo;
+        return $this;
     }
 
     /**
@@ -90,17 +99,20 @@ class SignedDocInfo
      */
     public function getSignatureInfo()
     {
-      return $this->SignatureInfo;
+
+        return $this->SignatureInfo;
     }
 
     /**
      * @param SignatureInfo[] $SignatureInfo
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignedDocInfo
      */
     public function setSignatureInfo(array $SignatureInfo = null)
     {
-      $this->SignatureInfo = $SignatureInfo;
-      return $this;
+
+        $this->SignatureInfo = $SignatureInfo;
+        return $this;
     }
 
 }

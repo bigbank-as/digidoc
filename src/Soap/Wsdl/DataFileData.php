@@ -55,7 +55,8 @@ class DataFileData
      */
     public function __construct($Size = null)
     {
-      $this->Size = $Size;
+
+        $this->Size = $Size;
     }
 
     /**
@@ -63,17 +64,20 @@ class DataFileData
      */
     public function getId()
     {
-      return $this->Id;
+
+        return $this->Id;
     }
 
     /**
      * @param string $Id
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setId($Id)
     {
-      $this->Id = $Id;
-      return $this;
+
+        $this->Id = $Id;
+        return $this;
     }
 
     /**
@@ -81,17 +85,20 @@ class DataFileData
      */
     public function getFilename()
     {
-      return $this->Filename;
+
+        return $this->Filename;
     }
 
     /**
      * @param string $Filename
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setFilename($Filename)
     {
-      $this->Filename = $Filename;
-      return $this;
+
+        $this->Filename = $Filename;
+        return $this;
     }
 
     /**
@@ -99,17 +106,20 @@ class DataFileData
      */
     public function getMimeType()
     {
-      return $this->MimeType;
+
+        return $this->MimeType;
     }
 
     /**
      * @param string $MimeType
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setMimeType($MimeType)
     {
-      $this->MimeType = $MimeType;
-      return $this;
+
+        $this->MimeType = $MimeType;
+        return $this;
     }
 
     /**
@@ -117,17 +127,20 @@ class DataFileData
      */
     public function getContentType()
     {
-      return $this->ContentType;
+
+        return $this->ContentType;
     }
 
     /**
      * @param string $ContentType
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setContentType($ContentType)
     {
-      $this->ContentType = $ContentType;
-      return $this;
+
+        $this->ContentType = $ContentType;
+        return $this;
     }
 
     /**
@@ -135,17 +148,20 @@ class DataFileData
      */
     public function getDigestType()
     {
-      return $this->DigestType;
+
+        return $this->DigestType;
     }
 
     /**
      * @param string $DigestType
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setDigestType($DigestType)
     {
-      $this->DigestType = $DigestType;
-      return $this;
+
+        $this->DigestType = $DigestType;
+        return $this;
     }
 
     /**
@@ -153,17 +169,20 @@ class DataFileData
      */
     public function getDigestValue()
     {
-      return $this->DigestValue;
+
+        return $this->DigestValue;
     }
 
     /**
      * @param string $DigestValue
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setDigestValue($DigestValue)
     {
-      $this->DigestValue = $DigestValue;
-      return $this;
+
+        $this->DigestValue = $DigestValue;
+        return $this;
     }
 
     /**
@@ -171,17 +190,20 @@ class DataFileData
      */
     public function getSize()
     {
-      return $this->Size;
+
+        return $this->Size;
     }
 
     /**
      * @param int $Size
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setSize($Size)
     {
-      $this->Size = $Size;
-      return $this;
+
+        $this->Size = $Size;
+        return $this;
     }
 
     /**
@@ -189,17 +211,20 @@ class DataFileData
      */
     public function getAttributes()
     {
-      return $this->Attributes;
+
+        return $this->Attributes;
     }
 
     /**
      * @param DataFileAttribute[] $Attributes
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setAttributes(array $Attributes = null)
     {
-      $this->Attributes = $Attributes;
-      return $this;
+
+        $this->Attributes = $Attributes;
+        return $this;
     }
 
     /**
@@ -207,17 +232,20 @@ class DataFileData
      */
     public function getDfData()
     {
-      return $this->DfData;
+
+        return $this->DfData;
     }
 
     /**
      * @param string $DfData
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileData
      */
     public function setDfData($DfData)
     {
-      $this->DfData = $DfData;
-      return $this;
+
+        $this->DfData = $DfData;
+        return $this;
     }
 
 }

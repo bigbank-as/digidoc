@@ -10,10 +10,10 @@ class DataFileDigestList
      */
     protected $DataFileDigest = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -21,17 +21,20 @@ class DataFileDigestList
      */
     public function getDataFileDigest()
     {
-      return $this->DataFileDigest;
+
+        return $this->DataFileDigest;
     }
 
     /**
      * @param DataFileDigest[] $DataFileDigest
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileDigestList
      */
     public function setDataFileDigest(array $DataFileDigest = null)
     {
-      $this->DataFileDigest = $DataFileDigest;
-      return $this;
+
+        $this->DataFileDigest = $DataFileDigest;
+        return $this;
     }
 
 }

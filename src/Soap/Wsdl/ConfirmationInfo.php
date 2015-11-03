@@ -20,10 +20,10 @@ class ConfirmationInfo
      */
     protected $ResponderCertificate = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -31,17 +31,20 @@ class ConfirmationInfo
      */
     public function getResponderID()
     {
-      return $this->ResponderID;
+
+        return $this->ResponderID;
     }
 
     /**
      * @param string $ResponderID
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\ConfirmationInfo
      */
     public function setResponderID($ResponderID)
     {
-      $this->ResponderID = $ResponderID;
-      return $this;
+
+        $this->ResponderID = $ResponderID;
+        return $this;
     }
 
     /**
@@ -49,17 +52,20 @@ class ConfirmationInfo
      */
     public function getProducedAt()
     {
-      return $this->ProducedAt;
+
+        return $this->ProducedAt;
     }
 
     /**
      * @param string $ProducedAt
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\ConfirmationInfo
      */
     public function setProducedAt($ProducedAt)
     {
-      $this->ProducedAt = $ProducedAt;
-      return $this;
+
+        $this->ProducedAt = $ProducedAt;
+        return $this;
     }
 
     /**
@@ -67,17 +73,20 @@ class ConfirmationInfo
      */
     public function getResponderCertificate()
     {
-      return $this->ResponderCertificate;
+
+        return $this->ResponderCertificate;
     }
 
     /**
      * @param CertificateInfo $ResponderCertificate
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\ConfirmationInfo
      */
     public function setResponderCertificate($ResponderCertificate)
     {
-      $this->ResponderCertificate = $ResponderCertificate;
-      return $this;
+
+        $this->ResponderCertificate = $ResponderCertificate;
+        return $this;
     }
 
 }

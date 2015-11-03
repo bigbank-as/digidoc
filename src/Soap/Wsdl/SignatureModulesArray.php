@@ -10,10 +10,10 @@ class SignatureModulesArray
      */
     protected $Modules = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -21,17 +21,20 @@ class SignatureModulesArray
      */
     public function getModules()
     {
-      return $this->Modules;
+
+        return $this->Modules;
     }
 
     /**
      * @param SignatureModule[] $Modules
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureModulesArray
      */
     public function setModules(array $Modules = null)
     {
-      $this->Modules = $Modules;
-      return $this;
+
+        $this->Modules = $Modules;
+        return $this;
     }
 
 }

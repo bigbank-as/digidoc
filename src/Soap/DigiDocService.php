@@ -154,6 +154,7 @@ interface DigiDocService
      * Service definition of function d__CloseSession
      *
      * @param int $Sesscode
+     *
      * @return string
      */
     public function CloseSession($Sesscode);

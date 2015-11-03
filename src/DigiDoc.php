@@ -36,15 +36,6 @@ class DigiDoc implements DigiDocInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getService($service)
-    {
-
-        return $this->container->get($service);
-    }
-
-    /**
      * @param string $apiUrl
      * @param array  $options
      *
@@ -62,6 +53,15 @@ class DigiDoc implements DigiDocInterface
         $container->addServiceProvider($systemServiceProvider);
 
         return $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($service)
+    {
+
+        return $this->container->get($service);
     }
 
     /**

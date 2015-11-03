@@ -1,13 +1,13 @@
 <?php
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\Services\MobileId\DefaultAuthenticator;
 use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+use Bigbank\DigiDoc\Services\MobileId\DefaultAuthenticator;
+use Bigbank\DigiDoc\Services\MobileId\DefaultFileSigner;
+use Bigbank\DigiDoc\Services\MobileId\FileSigner;
 use Bigbank\DigiDoc\Soap\DigiDocService;
 use Bigbank\DigiDoc\Soap\SkDigiDoc;
 use Bigbank\DigiDoc\Soap\SoapClient;
-use Bigbank\DigiDoc\Services\MobileId\FileSigner;
-use Bigbank\DigiDoc\Services\MobileId\DefaultFileSigner;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ServiceProvider extends AbstractServiceProvider
