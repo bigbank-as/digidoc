@@ -149,4 +149,12 @@ interface DigiDocService
      * @return list(string $Status, SignedDocInfo $SignedDocInfo)
      */
     public function GetSignedDoc($Sesscode);
+
+    /**
+     * Service definition of function d__CloseSession
+     *
+     * @param int $Sesscode
+     * @return string
+     */
+    public function CloseSession($Sesscode);
 }

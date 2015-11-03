@@ -60,4 +60,9 @@ interface FileSigner
      * @return $this
      */
     public function setSessionCode($code);
+
+    /**
+     * @return bool True if the session was closed
+     */
+    public function closeSession();
 }

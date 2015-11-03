@@ -44,3 +44,5 @@ $callback = function ($status, $fileContents) {
 };
 
 $signer->waitForSignature($callback);
+
+$signer->closeSession();

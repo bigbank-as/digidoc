@@ -148,6 +148,15 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     /**
      * {@inheritdoc}
      */
+    public function closeSession()
+    {
+
+        return $this->digiDocService->CloseSession($this->sessionCode) === 'OK';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setSessionCode($code)
     {
 
