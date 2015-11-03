@@ -1,6 +1,7 @@
 <?php
 use Bigbank\DigiDoc\DigiDoc;
 use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
 
 include '../../vendor/autoload.php';
 
@@ -20,7 +21,7 @@ echo sprintf(
 
 $callback = function ($status) {
 
-    if ($status == 'USER_AUTHENTICATED') {
+    if ($status == InteractionStatus::USER_AUTHENTICATED) {
         return "\nAuthentication OK";
     }
 

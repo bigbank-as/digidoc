@@ -3,6 +3,7 @@ namespace Bigbank\DigiDoc\Services\MobileId;
 
 use Bigbank\DigiDoc\Exceptions\DigiDocException;
 use Bigbank\DigiDoc\Services\AbstractDigiDocService;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
 
 /**
  * {@inheritdoc}
@@ -58,8 +59,8 @@ class DefaultAuthenticator extends AbstractDigiDocService implements Authenticat
     public function waitForAuthentication($sessionCode, callable $callback)
     {
 
-        $status = 'OUTSTANDING_TRANSACTION';
-        while ($status == 'OUTSTANDING_TRANSACTION') {
+        $status = InteractionStatus::OUTSTANDING_TRANSACTION;
+        while ($status == InteractionStatus::OUTSTANDING_TRANSACTION) {
             $status = $this->askStatus($sessionCode);
             sleep($this->pollingFrequency);
         }
