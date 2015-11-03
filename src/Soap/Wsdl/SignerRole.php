@@ -18,7 +18,7 @@ class SignerRole
     /**
      * @param int $Certified
      */
-    public function __construct($Certified)
+    public function __construct($Certified = null)
     {
       $this->Certified = $Certified;
     }

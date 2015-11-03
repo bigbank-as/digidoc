@@ -48,7 +48,7 @@ class DataFileInfo
     /**
      * @param int $Size
      */
-    public function __construct($Size)
+    public function __construct($Size = null)
     {
       $this->Size = $Size;
     }

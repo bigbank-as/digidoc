@@ -1,13 +1,13 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
-use Bigbank\DigiDoc\Services\AbstractDigiDocService;
+use Bigbank\DigiDoc\Services\AbstractService;
 use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
 
 /**
  * {@inheritdoc}
  */
-class DefaultFileSigner extends AbstractDigiDocService implements FileSigner
+class DefaultFileSigner extends AbstractService implements FileSigner
 {
 
     /**

@@ -6,7 +6,7 @@ use Bigbank\DigiDoc\Soap\DigiDocService;
 /**
  * {@inheritdoc}
  */
-abstract class AbstractDigiDocService
+abstract class AbstractService
 {
 
     /**

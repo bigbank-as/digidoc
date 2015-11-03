@@ -53,7 +53,7 @@ class TstInfo
     /**
      * @param boolean $Ordered
      */
-    public function __construct($Ordered)
+    public function __construct($Ordered = null)
     {
       $this->Ordered = $Ordered;
     }
