@@ -1,7 +1,7 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
-use Bigbank\DigiDoc\Exceptions\IdException;
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
 use Bigbank\DigiDoc\Services\AbstractDigiDocService;
 
 /**
@@ -9,6 +9,8 @@ use Bigbank\DigiDoc\Services\AbstractDigiDocService;
  */
 class DefaultAuthenticator extends AbstractDigiDocService implements Authenticator
 {
+
+    const SP_CHALLENGE_LENGTH = 20;
 
     /**
      * @var int
@@ -28,7 +30,7 @@ class DefaultAuthenticator extends AbstractDigiDocService implements Authenticat
             'EST',
             $serviceName,
             $messageToDisplay,
-            null,
+            $this->generateChallenge(),
             'asynchClientServer',
             null,
             false,
@@ -45,7 +47,7 @@ class DefaultAuthenticator extends AbstractDigiDocService implements Authenticat
         $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($sessionCode, false);
 
         if (!isset($statusResponse['Status'])) {
-            throw new IdException;
+            throw new DigiDocException;
         }
         return $statusResponse['Status'];
     }
@@ -63,5 +65,23 @@ class DefaultAuthenticator extends AbstractDigiDocService implements Authenticat
         }
 
         return call_user_func($callback, $status, $sessionCode);
+    }
+
+    /**
+     * Generates a random 10-byte string
+     *
+     * The generated string is cryptographically secure if the function `random_bytes` is available (>= PHP 7).
+     *
+     * @return int|string
+     */
+    private function generateChallenge()
+    {
+
+        if (function_exists('random_bytes')) {
+            return random_bytes(self::SP_CHALLENGE_LENGTH);
+        }
+
+        $randomString = bin2hex(openssl_random_pseudo_bytes(self::SP_CHALLENGE_LENGTH));
+        return substr($randomString, 0, self::SP_CHALLENGE_LENGTH);
     }
 }
