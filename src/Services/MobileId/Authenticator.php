@@ -1,42 +1,88 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
+use Bigbank\DigiDoc\Services\AbstractService;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
+
 /**
- * Authenticate against the mobile ID API
+ * {@inheritdoc}
  */
-interface Authenticator
+class Authenticator extends AbstractService implements AuthenticatorInterface
 {
 
-    /**
-     * @param string $idCode
-     * @param string $phoneNumber
-     * @param string $serviceName
-     * @param string $messageToDisplay
-     *
-     * @return array
-     */
-    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay);
+    const SP_CHALLENGE_LENGTH = 20;
 
     /**
-     * @param string $sessionCode
-     *
-     * @return array
+     * @var int
      */
-    public function askStatus($sessionCode);
+    protected $pollingFrequency = 3;
 
     /**
-     * Wait until the authentication process ends and call a callback function
-     *
-     * This is a blocking call that waits until the user finishes the authentication
-     * (takes his mobile and enters the provided code).
-     *
-     * DigiDoc API will be polled for authentication status every few seconds. As soon as the status changes
-     * (either OK or one of several error codes) the callback will be called.
-     *
-     * @param string   $sessionCode DigiDoc service session code that is returned by `authenticate` method
-     * @param callable $callback    Callback function to call once authentication status changes
-     *
-     * @return mixed The return value of the callback function
+     * {@inheritdoc}
      */
-    public function waitForAuthentication($sessionCode, callable $callback);
+    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay)
+    {
+
+        return $this->digiDocService->MobileAuthenticate(
+            $idCode,
+            'EE',
+            $phoneNumber,
+            'EST',
+            $serviceName,
+            $messageToDisplay,
+            $this->generateChallenge(),
+            'asynchClientServer',
+            null,
+            false,
+            false
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function askStatus($sessionCode)
+    {
+
+        $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($sessionCode, false);
+
+        if (!isset($statusResponse['Status'])) {
+            throw new DigiDocException;
+        }
+        return $statusResponse['Status'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function waitForAuthentication($sessionCode, callable $callback)
+    {
+
+        $status = InteractionStatus::OUTSTANDING_TRANSACTION;
+        while ($status == InteractionStatus::OUTSTANDING_TRANSACTION) {
+            $status = $this->askStatus($sessionCode);
+            sleep($this->pollingFrequency);
+        }
+
+        return call_user_func($callback, $status, $sessionCode);
+    }
+
+    /**
+     * Generates a random 10-byte string
+     *
+     * The generated string is cryptographically secure if the function `random_bytes` is available (>= PHP 7).
+     *
+     * @return int|string
+     */
+    private function generateChallenge()
+    {
+
+        if (function_exists('random_bytes')) {
+            return random_bytes(self::SP_CHALLENGE_LENGTH);
+        }
+
+        $randomString = bin2hex(openssl_random_pseudo_bytes(self::SP_CHALLENGE_LENGTH));
+        return substr($randomString, 0, self::SP_CHALLENGE_LENGTH);
+    }
 }

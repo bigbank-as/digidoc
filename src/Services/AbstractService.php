@@ -1,7 +1,7 @@
 <?php
 namespace Bigbank\DigiDoc\Services;
 
-use Bigbank\DigiDoc\Soap\DigiDocService;
+use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
 
 /**
  * {@inheritdoc}
@@ -10,14 +10,14 @@ abstract class AbstractService
 {
 
     /**
-     * @var DigiDocService
+     * @var DigiDocServiceInterface
      */
     protected $digiDocService;
 
     /**
-     * @param DigiDocService $digiDocService
+     * @param DigiDocServiceInterface $digiDocService
      */
-    public function __construct(DigiDocService $digiDocService)
+    public function __construct(DigiDocServiceInterface $digiDocService)
     {
 
         $this->digiDocService = $digiDocService;

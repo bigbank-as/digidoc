@@ -1,67 +1,167 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
+use Bigbank\DigiDoc\Services\AbstractService;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
+use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
+
 /**
- * Put files into a .bdoc container and sign them
+ * {@inheritdoc}
  */
-interface FileSigner
+class FileSigner extends AbstractService implements FileSignerInterface
 {
 
     /**
-     * Initiate the session of signing a file
-     *
-     * @return array
+     * @var int
      */
-    public function startSession();
+    protected $sessionCode;
 
     /**
-     * Add a file to the container for signing
-     *
-     * @param string $fileName The filename of the file, including the extension
-     * @param string $mimeType The [media type](https://en.wikipedia.org/wiki/Media_type) of the file
-     * @param string $content The contents of the file as a base64-encoded string
-     *
-     * @return bool True if the file was uploaded successfully
+     * @var int
      */
-    public function addFile($fileName, $mimeType, $content);
+    protected $pollingFrequency = 3;
 
     /**
-     * Initiate the signing request
-     *
-     * @var string $idCode
-     * @var string $phoneNumber
-     * @var string $serviceName
-     * @var string $messageToDisplay
-     *
-     * @return array Returns string values with the keys Status, StatusCode, ChallengeID
+     * {@inheritdoc}
      */
-    public function sign($idCode, $phoneNumber, $serviceName, $messageToDisplay);
+    public function askStatus()
+    {
+
+        return $this->fetchStatusInfo()['StatusCode'];
+    }
 
     /**
-     * Check if the signed file is available
-     *
-     * Returns status and if signed also the file
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function askStatus();
+    public function waitForSignature(callable $callback)
+    {
+
+        $status = InteractionStatus::OUTSTANDING_TRANSACTION;
+        while ($status == InteractionStatus::OUTSTANDING_TRANSACTION) {
+            $status = $this->askStatus();
+            sleep($this->pollingFrequency);
+        }
+
+        $fileData = $status === InteractionStatus::SIGNATURE ? $this->fetchFile() : [];
+        return call_user_func($callback, $status, $fileData, $this->sessionCode);
+    }
 
     /**
-     * @param callable $callback
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function waitForSignature(callable $callback);
+    public function startSession()
+    {
+
+        $response = $this->digiDocService->StartSession('', '', true, new DataFileData);
+
+        $this->sessionCode = $response['Sesscode'];
+
+        $this->createSignedDoc();
+    }
 
     /**
-     * @param int $code
-     *
-     * @return $this
+     * Call CreateSignedDoc after starting session
      */
-    public function setSessionCode($code);
+    protected function createSignedDoc()
+    {
+
+        $this->digiDocService->CreateSignedDoc($this->sessionCode, 'BDOC', '2.1');
+    }
 
     /**
-     * @return bool True if the session was closed
+     * {@inheritdoc}
      */
-    public function closeSession();
+    public function addFile($fileName, $mimeType, $content)
+    {
+
+       $response = $this->digiDocService->AddDataFile(
+            $this->sessionCode,
+            $fileName,
+            $mimeType,
+            'EMBEDDED_BASE64',
+            mb_strlen($content, '8bit'),
+            '',
+            '',
+            $content
+        );
+        return $response['Status'] === 'OK';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sign($idCode, $phoneNumber, $serviceName, $messageToDisplay)
+    {
+
+        $response = $this->digiDocService->MobileSign(
+            $this->sessionCode,
+            $idCode,
+            'EE',
+            $phoneNumber,
+            $serviceName,
+            $messageToDisplay,
+            'EST',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            'asynchClientServer',
+            null,
+            false,
+            false
+        );
+
+        $response['Sesscode'] = $this->sessionCode;
+        return $response;
+    }
+
+    /**
+     * Check the state of the signing process
+     *
+     * @return array String values with the keys Status, StatusCode
+     */
+    protected function fetchStatusInfo()
+    {
+
+        return $this->digiDocService->GetStatusInfo($this->sessionCode, false, false);
+    }
+
+    /**
+     * Get the signed file
+     *
+     * @return string File contents in base64
+     * @throws DigiDocException
+     */
+    protected function fetchFile()
+    {
+
+        $response = $this->digiDocService->GetSignedDoc($this->sessionCode);
+
+        if (!isset($response['SignedDocData'])) {
+            throw new DigiDocException('No file to download');
+        }
+        return html_entity_decode($response['SignedDocData']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function closeSession()
+    {
+
+        return $this->digiDocService->CloseSession($this->sessionCode) === 'OK';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSessionCode($code)
+    {
+
+        $this->sessionCode = $code;
+        return $this;
+    }
 }

@@ -1,14 +1,14 @@
 <?php
 
 use Bigbank\DigiDoc\DigiDoc;
-use Bigbank\DigiDoc\Services\MobileId\FileSigner;
+use Bigbank\DigiDoc\Services\MobileId\FileSignerInterface;
 
 include '../../vendor/autoload.php';
 
 $digiDocService = new DigiDoc(DigiDoc::URL_TEST);
 
-/** @var FileSigner $signer */
-$signer = $digiDocService->getService(FileSigner::class);
+/** @var FileSignerInterface $signer */
+$signer = $digiDocService->getService(FileSignerInterface::class);
 
 $userPhone   = '+37200007';
 $userIdCode  = '14212128025';

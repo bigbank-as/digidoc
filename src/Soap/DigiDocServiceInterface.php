@@ -3,7 +3,7 @@ namespace Bigbank\DigiDoc\Soap;
 
 use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
 
-interface DigiDocService
+interface DigiDocServiceInterface
 {
 
     /**
