@@ -1,13 +1,14 @@
 <?php
 use Bigbank\DigiDoc\DigiDoc;
-use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
 
 include '../../vendor/autoload.php';
 
 $digiDocService = new DigiDoc(DigiDoc::URL_TEST);
 
-/** @var Authenticator $authenticator */
-$authenticator = $digiDocService->getService(Authenticator::class);
+/** @var AuthenticatorInterface $authenticator */
+$authenticator = $digiDocService->getService(AuthenticatorInterface::class);
 
 echo sprintf("Trying to authenticate...\n");
 $response = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'White House');
@@ -20,7 +21,7 @@ echo sprintf(
 
 $callback = function ($status) {
 
-    if ($status == 'USER_AUTHENTICATED') {
+    if ($status == InteractionStatus::USER_AUTHENTICATED) {
         return "\nAuthentication OK";
     }
 
@@ -30,4 +31,3 @@ $callback = function ($status) {
 $message = $authenticator->waitForAuthentication($response['Sesscode'], $callback);
 
 echo $message;
-

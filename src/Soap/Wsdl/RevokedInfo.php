@@ -23,9 +23,10 @@ class RevokedInfo
     /**
      * @param int $Sequence
      */
-    public function __construct($Sequence)
+    public function __construct($Sequence = null)
     {
-      $this->Sequence = $Sequence;
+
+        $this->Sequence = $Sequence;
     }
 
     /**
@@ -33,17 +34,20 @@ class RevokedInfo
      */
     public function getSequence()
     {
-      return $this->Sequence;
+
+        return $this->Sequence;
     }
 
     /**
      * @param int $Sequence
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\RevokedInfo
      */
     public function setSequence($Sequence)
     {
-      $this->Sequence = $Sequence;
-      return $this;
+
+        $this->Sequence = $Sequence;
+        return $this;
     }
 
     /**
@@ -51,17 +55,20 @@ class RevokedInfo
      */
     public function getSerialNumber()
     {
-      return $this->SerialNumber;
+
+        return $this->SerialNumber;
     }
 
     /**
      * @param string $SerialNumber
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\RevokedInfo
      */
     public function setSerialNumber($SerialNumber)
     {
-      $this->SerialNumber = $SerialNumber;
-      return $this;
+
+        $this->SerialNumber = $SerialNumber;
+        return $this;
     }
 
     /**
@@ -69,29 +76,32 @@ class RevokedInfo
      */
     public function getRevocationDate()
     {
-      if ($this->RevocationDate == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->RevocationDate);
-        } catch (\Exception $e) {
-          return false;
+
+        if ($this->RevocationDate == null) {
+            return null;
+        } else {
+            try {
+                return new \DateTime($this->RevocationDate);
+            } catch (\Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $RevocationDate
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\RevokedInfo
      */
     public function setRevocationDate(\DateTime $RevocationDate = null)
     {
-      if ($RevocationDate == null) {
-       $this->RevocationDate = null;
-      } else {
-        $this->RevocationDate = $RevocationDate->format(\DateTime::ATOM);
-      }
-      return $this;
+
+        if ($RevocationDate == null) {
+            $this->RevocationDate = null;
+        } else {
+            $this->RevocationDate = $RevocationDate->format(\DateTime::ATOM);
+        }
+        return $this;
     }
 
 }

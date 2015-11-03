@@ -5,24 +5,25 @@ use Bigbank\DigiDoc\DigiDoc;
 use Wsdl2PhpGenerator\Config;
 use Wsdl2PhpGenerator\Generator;
 
-require 'vendor/autoload.php';
+require './vendor/autoload.php';
 
 echo sprintf(
     "Generating WSDL files from DigiDoc service (%s)." .
-    "This happens as part of the Composer post-update hook and requires an active internet connection.",
+    "This happens as part of the Composer post-update hook and requires an active internet connection.\n",
     DigiDoc::URL_TEST
 );
 
 $generator = new Generator;
 $config    = new Config([
-    'inputFile'       => DigiDoc::URL_TEST,
-    'outputDir'       => './src/Soap/Wsdl',
-    'namespaceName'   => 'Bigbank\DigiDoc\Soap\Wsdl',
-    'proxy'           => getenv('HTTPS_PROXY'),
-    'sharedTypes'     => true,
+    'inputFile'                      => DigiDoc::URL_TEST,
+    'outputDir'                      => './src/Soap/Wsdl',
+    'namespaceName'                  => 'Bigbank\DigiDoc\Soap\Wsdl',
+    'proxy'                          => getenv('HTTPS_PROXY'),
+    'sharedTypes'                    => true,
     // 'soapClientClass' value must begin with a leading namespace class
     // otherwise the generated class uses a relative namespace which won't resolve
-    'soapClientClass' => '\Bigbank\DigiDoc\Soap\ProxyAwareClient'
+    'soapClientClass'                => '\Bigbank\DigiDoc\Soap\ProxyAwareClient',
+    'constructorParamsDefaultToNull' => true
 ]);
 
 $generator->generate($config);

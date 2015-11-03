@@ -55,10 +55,10 @@ class SignatureInfo
      */
     protected $CRLInfo = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -66,17 +66,20 @@ class SignatureInfo
      */
     public function getId()
     {
-      return $this->Id;
+
+        return $this->Id;
     }
 
     /**
      * @param string $Id
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setId($Id)
     {
-      $this->Id = $Id;
-      return $this;
+
+        $this->Id = $Id;
+        return $this;
     }
 
     /**
@@ -84,17 +87,20 @@ class SignatureInfo
      */
     public function getStatus()
     {
-      return $this->Status;
+
+        return $this->Status;
     }
 
     /**
      * @param string $Status
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setStatus($Status)
     {
-      $this->Status = $Status;
-      return $this;
+
+        $this->Status = $Status;
+        return $this;
     }
 
     /**
@@ -102,17 +108,20 @@ class SignatureInfo
      */
     public function getError()
     {
-      return $this->Error;
+
+        return $this->Error;
     }
 
     /**
      * @param Error $Error
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setError($Error)
     {
-      $this->Error = $Error;
-      return $this;
+
+        $this->Error = $Error;
+        return $this;
     }
 
     /**
@@ -120,29 +129,32 @@ class SignatureInfo
      */
     public function getSigningTime()
     {
-      if ($this->SigningTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->SigningTime);
-        } catch (\Exception $e) {
-          return false;
+
+        if ($this->SigningTime == null) {
+            return null;
+        } else {
+            try {
+                return new \DateTime($this->SigningTime);
+            } catch (\Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $SigningTime
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setSigningTime(\DateTime $SigningTime = null)
     {
-      if ($SigningTime == null) {
-       $this->SigningTime = null;
-      } else {
-        $this->SigningTime = $SigningTime->format(\DateTime::ATOM);
-      }
-      return $this;
+
+        if ($SigningTime == null) {
+            $this->SigningTime = null;
+        } else {
+            $this->SigningTime = $SigningTime->format(\DateTime::ATOM);
+        }
+        return $this;
     }
 
     /**
@@ -150,17 +162,20 @@ class SignatureInfo
      */
     public function getSignerRole()
     {
-      return $this->SignerRole;
+
+        return $this->SignerRole;
     }
 
     /**
      * @param SignerRole[] $SignerRole
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setSignerRole(array $SignerRole = null)
     {
-      $this->SignerRole = $SignerRole;
-      return $this;
+
+        $this->SignerRole = $SignerRole;
+        return $this;
     }
 
     /**
@@ -168,17 +183,20 @@ class SignatureInfo
      */
     public function getSignatureProductionPlace()
     {
-      return $this->SignatureProductionPlace;
+
+        return $this->SignatureProductionPlace;
     }
 
     /**
      * @param SignatureProductionPlace $SignatureProductionPlace
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setSignatureProductionPlace($SignatureProductionPlace)
     {
-      $this->SignatureProductionPlace = $SignatureProductionPlace;
-      return $this;
+
+        $this->SignatureProductionPlace = $SignatureProductionPlace;
+        return $this;
     }
 
     /**
@@ -186,17 +204,20 @@ class SignatureInfo
      */
     public function getSigner()
     {
-      return $this->Signer;
+
+        return $this->Signer;
     }
 
     /**
      * @param SignerInfo $Signer
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setSigner($Signer)
     {
-      $this->Signer = $Signer;
-      return $this;
+
+        $this->Signer = $Signer;
+        return $this;
     }
 
     /**
@@ -204,17 +225,20 @@ class SignatureInfo
      */
     public function getConfirmation()
     {
-      return $this->Confirmation;
+
+        return $this->Confirmation;
     }
 
     /**
      * @param ConfirmationInfo $Confirmation
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setConfirmation($Confirmation)
     {
-      $this->Confirmation = $Confirmation;
-      return $this;
+
+        $this->Confirmation = $Confirmation;
+        return $this;
     }
 
     /**
@@ -222,17 +246,20 @@ class SignatureInfo
      */
     public function getTimestamps()
     {
-      return $this->Timestamps;
+
+        return $this->Timestamps;
     }
 
     /**
      * @param TstInfo[] $Timestamps
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setTimestamps(array $Timestamps = null)
     {
-      $this->Timestamps = $Timestamps;
-      return $this;
+
+        $this->Timestamps = $Timestamps;
+        return $this;
     }
 
     /**
@@ -240,17 +267,20 @@ class SignatureInfo
      */
     public function getCRLInfo()
     {
-      return $this->CRLInfo;
+
+        return $this->CRLInfo;
     }
 
     /**
      * @param CRLInfo $CRLInfo
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureInfo
      */
     public function setCRLInfo($CRLInfo)
     {
-      $this->CRLInfo = $CRLInfo;
-      return $this;
+
+        $this->CRLInfo = $CRLInfo;
+        return $this;
     }
 
 }

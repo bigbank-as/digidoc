@@ -25,10 +25,10 @@ class DataFileDigest
      */
     protected $MimeType = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -36,17 +36,20 @@ class DataFileDigest
      */
     public function getId()
     {
-      return $this->Id;
+
+        return $this->Id;
     }
 
     /**
      * @param string $Id
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileDigest
      */
     public function setId($Id)
     {
-      $this->Id = $Id;
-      return $this;
+
+        $this->Id = $Id;
+        return $this;
     }
 
     /**
@@ -54,17 +57,20 @@ class DataFileDigest
      */
     public function getDigestType()
     {
-      return $this->DigestType;
+
+        return $this->DigestType;
     }
 
     /**
      * @param string $DigestType
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileDigest
      */
     public function setDigestType($DigestType)
     {
-      $this->DigestType = $DigestType;
-      return $this;
+
+        $this->DigestType = $DigestType;
+        return $this;
     }
 
     /**
@@ -72,17 +78,20 @@ class DataFileDigest
      */
     public function getDigestValue()
     {
-      return $this->DigestValue;
+
+        return $this->DigestValue;
     }
 
     /**
      * @param string $DigestValue
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileDigest
      */
     public function setDigestValue($DigestValue)
     {
-      $this->DigestValue = $DigestValue;
-      return $this;
+
+        $this->DigestValue = $DigestValue;
+        return $this;
     }
 
     /**
@@ -90,17 +99,20 @@ class DataFileDigest
      */
     public function getMimeType()
     {
-      return $this->MimeType;
+
+        return $this->MimeType;
     }
 
     /**
      * @param string $MimeType
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\DataFileDigest
      */
     public function setMimeType($MimeType)
     {
-      $this->MimeType = $MimeType;
-      return $this;
+
+        $this->MimeType = $MimeType;
+        return $this;
     }
 
 }

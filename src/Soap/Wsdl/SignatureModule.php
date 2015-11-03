@@ -30,10 +30,10 @@ class SignatureModule
      */
     protected $Content = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -41,17 +41,20 @@ class SignatureModule
      */
     public function getName()
     {
-      return $this->Name;
+
+        return $this->Name;
     }
 
     /**
      * @param string $Name
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureModule
      */
     public function setName($Name)
     {
-      $this->Name = $Name;
-      return $this;
+
+        $this->Name = $Name;
+        return $this;
     }
 
     /**
@@ -59,17 +62,20 @@ class SignatureModule
      */
     public function getType()
     {
-      return $this->Type;
+
+        return $this->Type;
     }
 
     /**
      * @param string $Type
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureModule
      */
     public function setType($Type)
     {
-      $this->Type = $Type;
-      return $this;
+
+        $this->Type = $Type;
+        return $this;
     }
 
     /**
@@ -77,17 +83,20 @@ class SignatureModule
      */
     public function getLocation()
     {
-      return $this->Location;
+
+        return $this->Location;
     }
 
     /**
      * @param string $Location
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureModule
      */
     public function setLocation($Location)
     {
-      $this->Location = $Location;
-      return $this;
+
+        $this->Location = $Location;
+        return $this;
     }
 
     /**
@@ -95,17 +104,20 @@ class SignatureModule
      */
     public function getContentType()
     {
-      return $this->ContentType;
+
+        return $this->ContentType;
     }
 
     /**
      * @param string $ContentType
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureModule
      */
     public function setContentType($ContentType)
     {
-      $this->ContentType = $ContentType;
-      return $this;
+
+        $this->ContentType = $ContentType;
+        return $this;
     }
 
     /**
@@ -113,17 +125,20 @@ class SignatureModule
      */
     public function getContent()
     {
-      return $this->Content;
+
+        return $this->Content;
     }
 
     /**
      * @param string $Content
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureModule
      */
     public function setContent($Content)
     {
-      $this->Content = $Content;
-      return $this;
+
+        $this->Content = $Content;
+        return $this;
     }
 
 }

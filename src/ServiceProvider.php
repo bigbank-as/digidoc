@@ -1,19 +1,22 @@
 <?php
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\Services\MobileId\DefaultAuthenticator;
+use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Services\MobileId\Authenticator;
-use Bigbank\DigiDoc\Soap\DigiDocService;
-use Bigbank\DigiDoc\Soap\SkDigiDoc;
-use Bigbank\DigiDoc\Soap\SoapClient;
+use Bigbank\DigiDoc\Services\MobileId\FileSigner;
+use Bigbank\DigiDoc\Services\MobileId\FileSignerInterface;
+use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
+use Bigbank\DigiDoc\Soap\SkDigiDocService;
+use Bigbank\DigiDoc\Soap\SoapClientInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ServiceProvider extends AbstractServiceProvider
 {
 
     protected $provides = [
-        SoapClient::class,
-        Authenticator::class
+        SoapClientInterface::class,
+        AuthenticatorInterface::class,
+        FileSignerInterface::class
     ];
 
     /**
@@ -38,7 +41,7 @@ class ServiceProvider extends AbstractServiceProvider
 
         $container = $this->getContainer();
 
-        $container->add(DigiDocService::class, function () {
+        $container->add(DigiDocServiceInterface::class, function () {
 
             $proxy = getenv('HTTP_PROXY') ?: null;
 
@@ -47,12 +50,18 @@ class ServiceProvider extends AbstractServiceProvider
                 $this->options['proxy_port'] = parse_url($proxy, PHP_URL_PORT);
             }
 
-            return new SkDigiDoc($this->options,$this->apiUrl);
+            return new SkDigiDocService($this->options, $this->apiUrl);
         });
 
-        $container->add(Authenticator::class, DefaultAuthenticator::class)
-            ->withArgument(DigiDocService::class);
+        $container->add(
+            AuthenticatorInterface::class,
+            Authenticator::class
+        )->withArgument(DigiDocServiceInterface::class);
 
+        $container->add(
+            FileSignerInterface::class,
+            FileSigner::class
+        )->withArgument(DigiDocServiceInterface::class);
     }
 
     /**

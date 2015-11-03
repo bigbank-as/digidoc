@@ -20,10 +20,10 @@ class SignerInfo
      */
     protected $Certificate = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -31,17 +31,20 @@ class SignerInfo
      */
     public function getCommonName()
     {
-      return $this->CommonName;
+
+        return $this->CommonName;
     }
 
     /**
      * @param string $CommonName
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignerInfo
      */
     public function setCommonName($CommonName)
     {
-      $this->CommonName = $CommonName;
-      return $this;
+
+        $this->CommonName = $CommonName;
+        return $this;
     }
 
     /**
@@ -49,17 +52,20 @@ class SignerInfo
      */
     public function getIDCode()
     {
-      return $this->IDCode;
+
+        return $this->IDCode;
     }
 
     /**
      * @param string $IDCode
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignerInfo
      */
     public function setIDCode($IDCode)
     {
-      $this->IDCode = $IDCode;
-      return $this;
+
+        $this->IDCode = $IDCode;
+        return $this;
     }
 
     /**
@@ -67,17 +73,20 @@ class SignerInfo
      */
     public function getCertificate()
     {
-      return $this->Certificate;
+
+        return $this->Certificate;
     }
 
     /**
      * @param CertificateInfo $Certificate
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignerInfo
      */
     public function setCertificate($Certificate)
     {
-      $this->Certificate = $Certificate;
-      return $this;
+
+        $this->Certificate = $Certificate;
+        return $this;
     }
 
 }

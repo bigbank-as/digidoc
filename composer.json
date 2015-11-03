@@ -11,6 +11,8 @@
     "ext-xml": "*",
     "ext-curl": "*",
     "ext-soap": "*",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
     "php": ">=5.6",
     "league/container": "~2.0"
   },

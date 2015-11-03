@@ -1,13 +1,14 @@
 <?php
 namespace Bigbank\DigiDoc\Soap;
 
-use Bigbank\DigiDoc\Exceptions\IdException;
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
 
 /**
  * A SOAP client that handles HTTP(S) proxy correctly
  */
-class ProxyAwareClient extends \SoapClient implements SoapClient
+class ProxyAwareClient extends \SoapClient implements SoapClientInterface
 {
+
     /**
      * @var array
      */
@@ -16,6 +17,21 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
         'proxy_host' => null,
         'proxy_port' => null
     ];
+
+    /**
+     * @param string $request
+     * @param string $location
+     * @param string $action
+     * @param int    $version
+     * @param int    $one_way
+     *
+     * @return string
+     */
+    public function __doRequest($request, $location, $action, $version, $one_way = 0)
+    {
+
+        return $this->callCurl($location, $request, $action);
+    }
 
     /**
      * @param string $url
@@ -47,21 +63,6 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
     }
 
     /**
-     * @param string $request
-     * @param string $location
-     * @param string $action
-     * @param int    $version
-     * @param int    $one_way
-     *
-     * @return string
-     */
-    public function __doRequest($request, $location, $action, $version, $one_way = 0)
-    {
-
-        return $this->callCurl($location, $request, $action);
-    }
-
-    /**
      * @return bool|string
      */
     protected function getProxyString()
@@ -73,6 +74,16 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
         return sprintf('%s:%d', $this->_proxy_host, $this->_proxy_port);
     }
 
+    /**
+     * @param string     $function_name
+     * @param array      $arguments
+     * @param array|null $options
+     * @param null       $input_headers
+     * @param array|null $output_headers
+     *
+     * @return array
+     * @throws DigiDocException
+     */
     public function __soapCall(
         $function_name,
         array $arguments,
@@ -82,14 +93,12 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
     ) {
 
         try {
-        return parent::__soapCall($function_name, $arguments, $options, $input_headers, $output_headers);
+            return parent::__soapCall($function_name, $arguments, $options, $input_headers, $output_headers);
         } catch (\SoapFault $fault) {
-            throw new IdException(
-                $fault->faultcode,
-                $fault->faultstring
+            throw new DigiDocException(
+                $fault->detail->message,
+                (int)$fault->faultstring
             );
         }
     }
-
-
 }

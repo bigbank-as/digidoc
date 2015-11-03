@@ -18,9 +18,10 @@ class SignerRole
     /**
      * @param int $Certified
      */
-    public function __construct($Certified)
+    public function __construct($Certified = null)
     {
-      $this->Certified = $Certified;
+
+        $this->Certified = $Certified;
     }
 
     /**
@@ -28,17 +29,20 @@ class SignerRole
      */
     public function getCertified()
     {
-      return $this->Certified;
+
+        return $this->Certified;
     }
 
     /**
      * @param int $Certified
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignerRole
      */
     public function setCertified($Certified)
     {
-      $this->Certified = $Certified;
-      return $this;
+
+        $this->Certified = $Certified;
+        return $this;
     }
 
     /**
@@ -46,17 +50,20 @@ class SignerRole
      */
     public function getRole()
     {
-      return $this->Role;
+
+        return $this->Role;
     }
 
     /**
      * @param string $Role
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignerRole
      */
     public function setRole($Role)
     {
-      $this->Role = $Role;
-      return $this;
+
+        $this->Role = $Role;
+        return $this;
     }
 
 }

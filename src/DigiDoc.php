@@ -1,8 +1,6 @@
 <?php
-
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\ServiceProvider as ServiceProvider;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 
@@ -38,15 +36,6 @@ class DigiDoc implements DigiDocInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getService($service)
-    {
-
-        return $this->container->get($service);
-    }
-
-    /**
      * @param string $apiUrl
      * @param array  $options
      *
@@ -64,6 +53,15 @@ class DigiDoc implements DigiDocInterface
         $container->addServiceProvider($systemServiceProvider);
 
         return $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($service)
+    {
+
+        return $this->container->get($service);
     }
 
     /**

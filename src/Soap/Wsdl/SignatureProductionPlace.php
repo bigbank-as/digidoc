@@ -25,10 +25,10 @@ class SignatureProductionPlace
      */
     protected $CountryName = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -36,17 +36,20 @@ class SignatureProductionPlace
      */
     public function getCity()
     {
-      return $this->City;
+
+        return $this->City;
     }
 
     /**
      * @param string $City
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureProductionPlace
      */
     public function setCity($City)
     {
-      $this->City = $City;
-      return $this;
+
+        $this->City = $City;
+        return $this;
     }
 
     /**
@@ -54,17 +57,20 @@ class SignatureProductionPlace
      */
     public function getStateOrProvince()
     {
-      return $this->StateOrProvince;
+
+        return $this->StateOrProvince;
     }
 
     /**
      * @param string $StateOrProvince
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureProductionPlace
      */
     public function setStateOrProvince($StateOrProvince)
     {
-      $this->StateOrProvince = $StateOrProvince;
-      return $this;
+
+        $this->StateOrProvince = $StateOrProvince;
+        return $this;
     }
 
     /**
@@ -72,17 +78,20 @@ class SignatureProductionPlace
      */
     public function getPostalCode()
     {
-      return $this->PostalCode;
+
+        return $this->PostalCode;
     }
 
     /**
      * @param string $PostalCode
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureProductionPlace
      */
     public function setPostalCode($PostalCode)
     {
-      $this->PostalCode = $PostalCode;
-      return $this;
+
+        $this->PostalCode = $PostalCode;
+        return $this;
     }
 
     /**
@@ -90,17 +99,20 @@ class SignatureProductionPlace
      */
     public function getCountryName()
     {
-      return $this->CountryName;
+
+        return $this->CountryName;
     }
 
     /**
      * @param string $CountryName
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\SignatureProductionPlace
      */
     public function setCountryName($CountryName)
     {
-      $this->CountryName = $CountryName;
-      return $this;
+
+        $this->CountryName = $CountryName;
+        return $this;
     }
 
 }

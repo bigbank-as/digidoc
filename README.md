@@ -17,8 +17,8 @@ $ composer require bigbank/digidoc
 ``` php
 $digiDoc = new DigiDoc(DigiDoc::URL_TEST);
 
-/** @var Authenticator $authenticator */
-$authenticator = $digiDoc->getService(Authenticator::class);
+/** @var AuthenticatorInterface $authenticator */
+$authenticator = $digiDoc->getService(AuthenticatorInterface::class);
 
 $userDetails = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'White House');
 $authenticator->waitForAuthentication($response['Sesscode'], function($authResult){

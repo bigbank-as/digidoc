@@ -20,10 +20,10 @@ class CertificatePolicy
      */
     protected $Description = null;
 
-    
+
     public function __construct()
     {
-    
+
     }
 
     /**
@@ -31,17 +31,20 @@ class CertificatePolicy
      */
     public function getOID()
     {
-      return $this->OID;
+
+        return $this->OID;
     }
 
     /**
      * @param string $OID
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\CertificatePolicy
      */
     public function setOID($OID)
     {
-      $this->OID = $OID;
-      return $this;
+
+        $this->OID = $OID;
+        return $this;
     }
 
     /**
@@ -49,17 +52,20 @@ class CertificatePolicy
      */
     public function getURL()
     {
-      return $this->URL;
+
+        return $this->URL;
     }
 
     /**
      * @param string $URL
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\CertificatePolicy
      */
     public function setURL($URL)
     {
-      $this->URL = $URL;
-      return $this;
+
+        $this->URL = $URL;
+        return $this;
     }
 
     /**
@@ -67,17 +73,20 @@ class CertificatePolicy
      */
     public function getDescription()
     {
-      return $this->Description;
+
+        return $this->Description;
     }
 
     /**
      * @param string $Description
+     *
      * @return \Bigbank\DigiDoc\Soap\Wsdl\CertificatePolicy
      */
     public function setDescription($Description)
     {
-      $this->Description = $Description;
-      return $this;
+
+        $this->Description = $Description;
+        return $this;
     }
 
 }

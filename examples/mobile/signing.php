@@ -1,55 +1,48 @@
 <?php
 
-include '../vendor/autoload.php';
+use Bigbank\DigiDoc\DigiDoc;
+use Bigbank\DigiDoc\Services\MobileId\FileSignerInterface;
 
-$sign = new \Bigbank\DigiDoc\Services\SingleFileSigner;
-$sign->setOptions([
-    'proxy_host' => 'cache.big.local',
-    'proxy_port' => 3128
-]);
+include '../../vendor/autoload.php';
 
-$userPhone  = '+37200007';
-$userIdCode = '14212128025';
-$fileData = [
-    'fileName' => 'contract.pdf',
-    'fileType' => 'application/pdf',
-    'fileContent' => file_get_contents('base64.example.txt')
-];
+$digiDocService = new DigiDoc(DigiDoc::URL_TEST);
 
-try {
-    echo sprintf("Trying to sign a document with ID code %s, phone %s...\n", $userIdCode, $userPhone);
+/** @var FileSignerInterface $signer */
+$signer = $digiDocService->getService(FileSignerInterface::class);
 
-    $response = $sign->startSigning($fileData, $userIdCode, $userPhone, 'Testimine', 'Message');
+$userPhone   = '+37200007';
+$userIdCode  = '14212128025';
+$fileContent = base64_encode(file_get_contents('example.document.pdf'));
 
-    echo sprintf(
-        "Challenge ID %s is sent, waiting for a signature...\n\n",
-        $response['ChallengeID']
-    );
+echo sprintf("Trying to sign a document with ID code %s, phone %s...\n", $userIdCode, $userPhone);
 
-    for ($i = 0; $i < 40; $i++) {
+$signer->startSession();
 
-        $status = $sign->getStatus($response['Sesscode']);
+echo sprintf("Adding file...\n\n\n");
 
-        if ($response['StatusCode'] === 'SIGNATURE') {
-            echo '-----FILE-----' . "\n\n\n";
+$signer->addFile('document.pdf', 'application/pdf', $fileContent);
 
-            echo $response['SignedDocData'];
+echo sprintf("Signing...\n\n\n");
 
-            echo "\n\n\n" . '------EOF-----';
+$response = $signer->sign($userIdCode, $userPhone, 'Testimine', 'My Application');
 
-            die();
-        }
+echo sprintf(
+    "Challenge ID %s is sent, waiting for a signature...\n\n",
+    $response['ChallengeID']
+);
 
-        echo '.';
-        sleep(1);
-    }
-    die('Failure: timed out.');
+$callback = function ($status, $fileContents) {
 
-} catch (\Bigbank\DigiDoc\Exceptions\IdException $e) {
-    die(sprintf(
-        'sk.ee service responded with an error of code %d. The message was: %s',
-        $e->getCode(),
-        $e->getMessage()
-    ));
-}
+    echo "\nSignature created\n";
 
+    file_put_contents('signed.document.bdoc', base64_decode($fileContents));
+    echo '----- FILE -----' . "\n\n\n";
+
+    echo $fileContents;
+
+    echo "\n\n\n" . '------ EOF -----';
+};
+
+$signer->waitForSignature($callback);
+
+$signer->closeSession();
