@@ -20,11 +20,12 @@ interface FileSigner
      * @param string $fileName
      * @param string $mimeType
      * @param string $content BASE64
+     * @param    int $fileSize
      *
      * @return array Returns string value with the key Status
      * and structure of a DigiDoc file with the key SignedDocInfo
      */
-    public function addFile($fileName, $mimeType, $content);
+    public function addFile($fileName, $mimeType, $content, $fileSize);
 
     /**
      * Initiate the signing request

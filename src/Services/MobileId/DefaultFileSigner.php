@@ -72,7 +72,7 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     /**
      * {@inheritdoc}
      */
-    public function addFile($fileName, $mimeType, $content)
+    public function addFile($fileName, $mimeType, $content, $fileSize)
     {
 
         $this->digiDocService->AddDataFile(
@@ -80,10 +80,10 @@ class DefaultFileSigner extends AbstractService implements FileSigner
             $fileName,
             $mimeType,
             'EMBEDDED_BASE64',
-            strlen($content),
+            $fileSize,
             '',
             '',
-            ''
+            $content
         );
     }
 
