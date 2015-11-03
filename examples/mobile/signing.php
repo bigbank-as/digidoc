@@ -35,7 +35,7 @@ $callback = function ($status, $fileContents) {
 
     echo "\nSignature created\n";
 
-    file_put_contents('output_file.bdoc', base64_decode($fileContents));
+    file_put_contents('signed_file.bdoc', base64_decode($fileContents));
     echo '----- FILE -----' . "\n\n\n";
 
     echo $fileContents;
