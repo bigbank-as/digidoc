@@ -1,13 +1,13 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
-use Bigbank\DigiDoc\Services\AbstractDigiDocService;
+use Bigbank\DigiDoc\Services\AbstractService;
 use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
 
 /**
  * {@inheritdoc}
  */
-class DefaultFileSigner extends AbstractDigiDocService implements FileSigner
+class DefaultFileSigner extends AbstractService implements FileSigner
 {
 
     /**
@@ -69,7 +69,7 @@ class DefaultFileSigner extends AbstractDigiDocService implements FileSigner
             $fileName,
             $mimeType,
             'EMBEDDED_BASE64',
-            strlen($content),
+            strlen($content), // Todo: use mb_strlen
             '',
             '',
             ''

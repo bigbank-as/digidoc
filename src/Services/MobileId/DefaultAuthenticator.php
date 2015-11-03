@@ -2,13 +2,13 @@
 namespace Bigbank\DigiDoc\Services\MobileId;
 
 use Bigbank\DigiDoc\Exceptions\DigiDocException;
-use Bigbank\DigiDoc\Services\AbstractDigiDocService;
+use Bigbank\DigiDoc\Services\AbstractService;
 use Bigbank\DigiDoc\Soap\InteractionStatus;
 
 /**
  * {@inheritdoc}
  */
-class DefaultAuthenticator extends AbstractDigiDocService implements Authenticator
+class DefaultAuthenticator extends AbstractService implements Authenticator
 {
 
     const SP_CHALLENGE_LENGTH = 20;
