@@ -1,7 +1,7 @@
 <?php
 namespace Bigbank\DigiDoc\Soap;
 
-use Bigbank\DigiDoc\Exceptions\IdException;
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
 
 /**
  * A SOAP client that handles HTTP(S) proxy correctly
@@ -85,7 +85,7 @@ class ProxyAwareClient extends \SoapClient implements SoapClient
         try {
             return parent::__soapCall($function_name, $arguments, $options, $input_headers, $output_headers);
         } catch (\SoapFault $fault) {
-            throw new IdException(
+            throw new DigiDocException(
                 $fault->detail->message,
                 (int)$fault->faultstring
             );

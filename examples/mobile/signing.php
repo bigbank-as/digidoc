@@ -45,7 +45,7 @@ try {
     }
     die('Failure: timed out.');
 
-} catch (\Bigbank\DigiDoc\Exceptions\IdException $e) {
+} catch (\Bigbank\DigiDoc\Exceptions\DigiDocException $e) {
     die(sprintf(
         'sk.ee service responded with an error of code %d. The message was: %s',
         $e->getCode(),
