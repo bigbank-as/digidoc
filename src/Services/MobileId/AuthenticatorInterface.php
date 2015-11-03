@@ -20,7 +20,7 @@ interface AuthenticatorInterface
     /**
      * @param string $sessionCode
      *
-     * @return array
+     * @return string
      */
     public function askStatus($sessionCode);
 

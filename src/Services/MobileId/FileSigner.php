@@ -43,7 +43,7 @@ class FileSigner extends AbstractService implements FileSignerInterface
             sleep($this->pollingFrequency);
         }
 
-        $fileData = $status === InteractionStatus::SIGNATURE ? $this->fetchFile() : [];
+        $fileData = $status === InteractionStatus::SIGNATURE ? $this->downloadContainer() : [];
         return call_user_func($callback, $status, $fileData, $this->sessionCode);
     }
 
@@ -130,12 +130,9 @@ class FileSigner extends AbstractService implements FileSignerInterface
     }
 
     /**
-     * Get the signed file
-     *
-     * @return string File contents in base64
-     * @throws DigiDocException
+     * {@inheritdoc}
      */
-    protected function fetchFile()
+    public function downloadContainer()
     {
 
         $response = $this->digiDocService->GetSignedDoc($this->sessionCode);
