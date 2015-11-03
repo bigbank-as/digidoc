@@ -7,8 +7,8 @@ include '../../vendor/autoload.php';
 
 $digiDocService = new DigiDoc(DigiDoc::URL_TEST);
 
-/** @var FileSigner $sign */
-$sign = $digiDocService->getService(FileSigner::class);
+/** @var FileSigner $signer */
+$signer = $digiDocService->getService(FileSigner::class);
 
 $userPhone   = '+37200007';
 $userIdCode  = '14212128025';
@@ -16,38 +16,31 @@ $fileContent = base64_encode(file_get_contents('base64.example.pdf'));
 
 echo sprintf("Trying to sign a document with ID code %s, phone %s...\n", $userIdCode, $userPhone);
 
-$sign->startSession();
+$signer->startSession();
 
 echo sprintf("Adding file...\n\n\n");
 
-$sign->addFile('contract.pdf', 'application/pdf', $fileContent);
+$signer->addFile('contract.pdf', 'application/pdf', $fileContent);
 
 echo sprintf("Signing...\n\n\n");
 
-$response = $sign->sign($userIdCode, $userPhone, 'Testimine', 'Message');
+$response = $signer->sign($userIdCode, $userPhone, 'Testimine', 'My Application');
 
 echo sprintf(
     "Challenge ID %s is sent, waiting for a signature...\n\n",
     $response['ChallengeID']
 );
 
-for ($i = 0; $i < 40; $i++) {
+$callback = function ($status, $fileContents) {
 
-    $status = $sign->getStatus($response['Sesscode']);
+    echo "\nSignature created\n";
 
-    if ($status['StatusCode'] === 'SIGNATURE') {
-        file_put_contents('output_file.bdoc', base64_decode($status['SignedDocData']));
-        echo '-----FILE-----' . "\n\n\n";
+    file_put_contents('output_file.bdoc', base64_decode($fileContents));
+    echo '----- FILE -----' . "\n\n\n";
 
-        echo $status['SignedDocData'];
+    echo $fileContents;
 
-        echo "\n\n\n" . '------EOF-----';
+    echo "\n\n\n" . '------ EOF -----';
+};
 
-        die();
-    }
-
-    echo '.';
-    sleep(4);
-}
-die('Failure: timed out.');
-
+$signer->waitForSignature($callback);

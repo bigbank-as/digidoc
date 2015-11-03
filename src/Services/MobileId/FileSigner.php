@@ -38,15 +38,26 @@ interface FileSigner
      */
     public function sign($idCode, $phoneNumber, $serviceName, $messageToDisplay);
 
-
     /**
      * Check if the signed file is available
      *
      * Returns status and if signed also the file
      *
-     * @param int $sessCode
-     *
      * @return array
      */
-    public function getStatus($sessCode);
+    public function askStatus();
+
+    /**
+     * @param callable $callback
+     *
+     * @return mixed
+     */
+    public function waitForSignature(callable $callback);
+
+    /**
+     * @param int $code
+     *
+     * @return $this
+     */
+    public function setSessionCode($code);
 }

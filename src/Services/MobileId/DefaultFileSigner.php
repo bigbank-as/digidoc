@@ -1,7 +1,9 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
 use Bigbank\DigiDoc\Services\AbstractService;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
 use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
 
 /**
@@ -13,25 +15,36 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     /**
      * @var int
      */
-    protected $sessCode;
+    protected $sessionCode;
+
+    /**
+     * @var int
+     */
+    protected $pollingFrequency = 3;
 
     /**
      * {@inheritdoc}
      */
-    public function getStatus($sessCode)
+    public function askStatus()
     {
 
-        $this->sessCode = $sessCode;
+        return $this->fetchStatusInfo()['StatusCode'];
+    }
 
-        $response = $this->fetchStatusInfo();
+    /**
+     * {@inheritdoc}
+     */
+    public function waitForSignature(callable $callback)
+    {
 
-        if ($response['StatusCode'] !== 'SIGNATURE') {
-            return $response;
+        $status = InteractionStatus::OUTSTANDING_TRANSACTION;
+        while ($status == InteractionStatus::OUTSTANDING_TRANSACTION) {
+            $status = $this->askStatus();
+            sleep($this->pollingFrequency);
         }
 
-        $fileResponse = $this->fetchFile();
-
-        return array_merge($response, $fileResponse);
+        $fileData = $status === InteractionStatus::SIGNATURE ? $this->fetchFile() : [];
+        return call_user_func($callback, $status, $fileData, $this->sessionCode);
     }
 
     /**
@@ -40,11 +53,9 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     public function startSession()
     {
 
-        // StartSession's 4th parameter is typehinted
-        $fileData = new DataFileData(null);
-        $response = $this->digiDocService->StartSession('', '', true, $fileData);
+        $response = $this->digiDocService->StartSession('', '', true, new DataFileData);
 
-        $this->sessCode = $response['Sesscode'];
+        $this->sessionCode = $response['Sesscode'];
 
         $this->createSignedDoc();
     }
@@ -55,7 +66,7 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     protected function createSignedDoc()
     {
 
-        $this->digiDocService->CreateSignedDoc($this->sessCode, 'BDOC', '2.1');
+        $this->digiDocService->CreateSignedDoc($this->sessionCode, 'BDOC', '2.1');
     }
 
     /**
@@ -65,11 +76,11 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     {
 
         $this->digiDocService->AddDataFile(
-            $this->sessCode,
+            $this->sessionCode,
             $fileName,
             $mimeType,
             'EMBEDDED_BASE64',
-            strlen($content), // Todo: use mb_strlen
+            strlen($content),
             '',
             '',
             ''
@@ -83,7 +94,7 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     {
 
         $response = $this->digiDocService->MobileSign(
-            $this->sessCode,
+            $this->sessionCode,
             $idCode,
             'EE',
             $phoneNumber,
@@ -102,7 +113,7 @@ class DefaultFileSigner extends AbstractService implements FileSigner
             false
         );
 
-        $response['Sesscode'] = $this->sessCode;
+        $response['Sesscode'] = $this->sessionCode;
         return $response;
     }
 
@@ -114,23 +125,33 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     protected function fetchStatusInfo()
     {
 
-        return $this->digiDocService->GetStatusInfo($this->sessCode, false, false);
+        return $this->digiDocService->GetStatusInfo($this->sessionCode, false, false);
     }
 
     /**
-     * Get the signed file data
+     * Get the signed file
      *
-     * @return array String values with the keys Status, SignedDocData
+     * @return string File contents in base64
+     * @throws DigiDocException
      */
     protected function fetchFile()
     {
 
-        $response = $this->digiDocService->GetSignedDoc($this->sessCode);
+        $response = $this->digiDocService->GetSignedDoc($this->sessionCode);
 
-        if (isset($response['SignedDocData'])) {
-            $response['SignedDocData'] = html_entity_decode($response['SignedDocData']);
+        if (!isset($response['SignedDocData'])) {
+            throw new DigiDocException('No file to download');
         }
+        return html_entity_decode($response['SignedDocData']);
+    }
 
-        return $response;
+    /**
+     * {@inheritdoc}
+     */
+    public function setSessionCode($code)
+    {
+
+        $this->sessionCode = $code;
+        return $this;
     }
 }

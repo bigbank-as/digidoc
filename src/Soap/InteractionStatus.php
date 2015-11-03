@@ -22,6 +22,11 @@ final class InteractionStatus
     const OUTSTANDING_TRANSACTION = 'OUTSTANDING_TRANSACTION';
 
     /**
+     * Signature was created
+     */
+    const SIGNATURE = 'SIGNATURE';
+
+    /**
      * Authentication successful
      */
     const USER_AUTHENTICATED = 'USER_AUTHENTICATED';
