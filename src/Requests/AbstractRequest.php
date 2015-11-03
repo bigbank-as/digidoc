@@ -15,6 +15,11 @@ abstract class AbstractRequest implements RequestInterface
      */
     protected $client;
 
+    public function __construct(SoapClient $client)
+    {
+        $this->client = $client;
+    }
+
     /**
      * @param SoapClient $client
      */

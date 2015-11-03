@@ -21,7 +21,7 @@ echo sprintf(
 $callback = function ($status) {
 
     if ($status == 'USER_AUTHENTICATED') {
-        return "\nAuthentication OK\n";
+        return "\nAuthentication OK";
     }
 
     return 'Failure. Status was ' . $status;
