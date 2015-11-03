@@ -13,7 +13,6 @@ $signer = $digiDocService->getService(FileSigner::class);
 $userPhone   = '+37200007';
 $userIdCode  = '14212128025';
 $fileContent = base64_encode(file_get_contents('base64.example.pdf'));
-$fileSize    = filesize('base64.example.pdf');
 
 echo sprintf("Trying to sign a document with ID code %s, phone %s...\n", $userIdCode, $userPhone);
 
@@ -21,7 +20,7 @@ $signer->startSession();
 
 echo sprintf("Adding file...\n\n\n");
 
-    $signer->addFile('contract.pdf', 'application/pdf', $fileContent, $fileSize);
+$signer->addFile('contract.pdf', 'application/pdf', $fileContent);
 
 echo sprintf("Signing...\n\n\n");
 
