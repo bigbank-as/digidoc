@@ -1,7 +1,7 @@
 <?php
 namespace Bigbank\DigiDoc\Requests;
 
-use Bigbank\DigiDoc\Exceptions\IdException;
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
 use Bigbank\DigiDoc\Soap\SoapClient;
 
 /**
@@ -40,7 +40,7 @@ abstract class AbstractRequest implements RequestInterface
         try {
             return $this->callSoapMethod(array_values($arguments));
         } catch (\SoapFault $fault) {
-            throw new IdException(
+            throw new DigiDocException(
                 $fault->faultcode,
                 $fault->faultstring
             );
