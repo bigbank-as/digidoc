@@ -44,20 +44,20 @@ class ProxyAwareClient extends \SoapClient implements SoapClientInterface
     {
 
         $handle = curl_init();
-        curl_setopt($handle, CURLOPT_URL, $url);
 
         $headers = ["Content-Type: text/xml", 'SOAPAction: "' . $action . '"'];
-        curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
 
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($handle, CURLOPT_FRESH_CONNECT, true);
-
-        curl_setopt($handle, CURLOPT_PROXY, $this->getProxyString());
+        curl_setopt_array($handle, [
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS     => $data,
+            CURLOPT_FRESH_CONNECT  => true,
+            CURLOPT_PROXY          => $this->getProxyString()
+        ]);
 
         $response = curl_exec($handle);
         curl_close($handle);
-
 
         return $response;
     }
