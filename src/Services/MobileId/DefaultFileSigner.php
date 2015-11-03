@@ -75,7 +75,7 @@ class DefaultFileSigner extends AbstractService implements FileSigner
     public function addFile($fileName, $mimeType, $content)
     {
 
-        $this->digiDocService->AddDataFile(
+       $response = $this->digiDocService->AddDataFile(
             $this->sessionCode,
             $fileName,
             $mimeType,
@@ -85,6 +85,7 @@ class DefaultFileSigner extends AbstractService implements FileSigner
             '',
             $content
         );
+        return $response['Status'] === 'OK';
     }
 
     /**

@@ -2,7 +2,7 @@
 namespace Bigbank\DigiDoc\Services\MobileId;
 
 /**
- * Signing of a DigiDoc file with the mobile ID API
+ * Put files into a .bdoc container and sign them
  */
 interface FileSigner
 {
@@ -15,14 +15,13 @@ interface FileSigner
     public function startSession();
 
     /**
-     * Send files for signing
+     * Add a file to the container for signing
      *
-     * @param string $fileName
-     * @param string $mimeType
-     * @param string $content BASE64
+     * @param string $fileName The filename of the file, including the extension
+     * @param string $mimeType The [media type](https://en.wikipedia.org/wiki/Media_type) of the file
+     * @param string $content The contents of the file as a base64-encoded string
      *
-     * @return array Returns string value with the key Status
-     * and structure of a DigiDoc file with the key SignedDocInfo
+     * @return bool True if the file was uploaded successfully
      */
     public function addFile($fileName, $mimeType, $content);
 

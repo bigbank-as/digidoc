@@ -80,7 +80,7 @@ interface DigiDocService
      * @param string $DigestValue
      * @param string $Content
      *
-     * @return list(string $Status, string $SignedDocInfo)
+     * @return list(string $Status, SignedDocInfo $SignedDocInfo)
      */
     public function AddDataFile(
         $Sesscode,
