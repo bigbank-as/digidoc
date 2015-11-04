@@ -1,6 +1,8 @@
 <?php
 namespace Bigbank\DigiDoc\Services\MobileId;
 
+use Bigbank\DigiDoc\Exceptions\DigiDocException;
+
 /**
  * Put files into a .bdoc container and sign them
  */
@@ -19,7 +21,7 @@ interface FileSignerInterface
      *
      * @param string $fileName The filename of the file, including the extension
      * @param string $mimeType The [media type](https://en.wikipedia.org/wiki/Media_type) of the file
-     * @param string $content The contents of the file as a base64-encoded string
+     * @param string $content  The contents of the file as a base64-encoded string
      *
      * @return bool True if the file was uploaded successfully
      */
@@ -64,4 +66,12 @@ interface FileSignerInterface
      * @return bool True if the session was closed
      */
     public function closeSession();
+
+    /**
+     * Get the signed container, containing added files and signatures
+     *
+     * @return string The contents of a .bdoc signed container in base64
+     * @throws DigiDocException
+     */
+    public function downloadContainer();
 }
