@@ -3,7 +3,7 @@ use Bigbank\DigiDoc\DigiDoc;
 use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Soap\InteractionStatus;
 
-include '../../vendor/autoload.php';
+include './vendor/autoload.php';
 
 $digiDocService = new DigiDoc(DigiDoc::URL_TEST);
 
