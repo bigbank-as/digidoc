@@ -7,6 +7,11 @@
       "Bigbank\\DigiDoc\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Bigbank\\DigiDoc\\Test\\": "tests/"
+    }
+  },
   "require": {
     "ext-xml": "*",
     "ext-curl": "*",
@@ -17,7 +22,8 @@
     "league/container": "~2.0"
   },
   "require-dev": {
-    "wsdl2phpgenerator/wsdl2phpgenerator": "~3"
+    "wsdl2phpgenerator/wsdl2phpgenerator": "~3",
+    "phpunit/phpunit":"~5"
   },
   "scripts": {
     "test": "phpunit"
