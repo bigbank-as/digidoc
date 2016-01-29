@@ -34,7 +34,8 @@ interface AuthenticatorInterface
      * (either OK or one of several error codes) the callback will be called.
      *
      * @param string   $sessionCode DigiDoc service session code that is returned by `authenticate` method
-     * @param callable $callback    Callback function to call once authentication status changes
+     * @param callable $callback    Callback function to call once authentication status changes. The function receives
+     *                              two arguments: authentication status and session code.
      *
      * @return mixed The return value of the callback function
      */
