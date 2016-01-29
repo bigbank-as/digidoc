@@ -69,20 +69,29 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
     }
 
     /**
-     * Generates a random 10-byte string
+     * Generates a random string for SP_CHALLENGE parameter of DigiDoc
      *
      * The generated string is cryptographically secure if the function `random_bytes` is available (>= PHP 7).
      *
-     * @return int|string
+     * @return string
      */
     private function generateChallenge()
     {
 
-        if (function_exists('random_bytes')) {
-            return random_bytes(self::SP_CHALLENGE_LENGTH);
-        }
+        return substr($this->generateRandomString(), 0, self::SP_CHALLENGE_LENGTH);
+    }
 
-        $randomString = bin2hex(openssl_random_pseudo_bytes(self::SP_CHALLENGE_LENGTH));
-        return substr($randomString, 0, self::SP_CHALLENGE_LENGTH);
+    /**
+     * Return a 40-char random string
+     *
+     * @return string
+     */
+    private function generateRandomString()
+    {
+
+        if (function_exists('random_bytes')) {
+            return bin2hex(random_bytes(self::SP_CHALLENGE_LENGTH));
+        }
+        return bin2hex(openssl_random_pseudo_bytes(self::SP_CHALLENGE_LENGTH));
     }
 }
