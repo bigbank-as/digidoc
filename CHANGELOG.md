@@ -6,7 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org). See [Keep A Ch
 
 ## [Unreleased] - [Unreleased]
 
-- Nothing
+### Fixed
+- Fix random `SPChallenge` generation with PHP 7: return valid UTF-8 hex challenges, not binary
 
 ## 0.1.0 - 2015-11-04
 
