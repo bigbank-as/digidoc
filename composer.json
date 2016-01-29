@@ -20,7 +20,6 @@
     "wsdl2phpgenerator/wsdl2phpgenerator": "~3"
   },
   "scripts": {
-    "post-update-cmd": "bin/wsdl_generator",
     "test": "phpunit"
   },
   "extra": {
