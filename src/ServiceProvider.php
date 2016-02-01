@@ -9,6 +9,7 @@ use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
 use Bigbank\DigiDoc\Soap\SkDigiDocService;
 use Bigbank\DigiDoc\Soap\SoapClientInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use RandomLib\Factory;
 
 class ServiceProvider extends AbstractServiceProvider
 {
@@ -38,7 +39,6 @@ class ServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-
         $container = $this->getContainer();
 
         $container->add(DigiDocServiceInterface::class, function () {
@@ -56,7 +56,7 @@ class ServiceProvider extends AbstractServiceProvider
         $container->add(
             AuthenticatorInterface::class,
             Authenticator::class
-        )->withArgument(DigiDocServiceInterface::class);
+        )->withArguments([DigiDocServiceInterface::class, (new Factory)->getMediumStrengthGenerator()]);
 
         $container->add(
             FileSignerInterface::class,

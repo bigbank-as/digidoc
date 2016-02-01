@@ -3,7 +3,9 @@ namespace Bigbank\DigiDoc\Services\MobileId;
 
 use Bigbank\DigiDoc\Exceptions\DigiDocException;
 use Bigbank\DigiDoc\Services\AbstractService;
+use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
 use Bigbank\DigiDoc\Soap\InteractionStatus;
+use RandomLib\Generator;
 
 /**
  * {@inheritdoc}
@@ -11,12 +13,31 @@ use Bigbank\DigiDoc\Soap\InteractionStatus;
 class Authenticator extends AbstractService implements AuthenticatorInterface
 {
 
+    /**
+     * The length of client-side random token 'SPChallenge'
+     */
     const SP_CHALLENGE_LENGTH = 20;
 
     /**
      * @var int
      */
     protected $pollingFrequency = 3;
+
+    /**
+     * @var Generator
+     */
+    private $random;
+
+    /**
+     * @param DigiDocServiceInterface $digiDocService
+     * @param Generator               $random
+     */
+    public function __construct(DigiDocServiceInterface $digiDocService, Generator $random)
+    {
+        parent::__construct($digiDocService);
+        $this->random = $random;
+    }
+
 
     /**
      * {@inheritdoc}
@@ -69,29 +90,14 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
     }
 
     /**
-     * Generates a random string for SP_CHALLENGE parameter of DigiDoc
+     * Generates a random hexadecimal string for SPChallenge parameter of DigiDoc
      *
-     * The generated string is cryptographically secure if the function `random_bytes` is available (>= PHP 7).
+     * The generated string is cryptographically secure.
      *
      * @return string
      */
     private function generateChallenge()
     {
-
-        return substr($this->generateRandomString(), 0, self::SP_CHALLENGE_LENGTH);
-    }
-
-    /**
-     * Return a 40-char random string
-     *
-     * @return string
-     */
-    private function generateRandomString()
-    {
-
-        if (function_exists('random_bytes')) {
-            return bin2hex(random_bytes(self::SP_CHALLENGE_LENGTH));
-        }
-        return bin2hex(openssl_random_pseudo_bytes(self::SP_CHALLENGE_LENGTH));
+        return $this->random->generateString(self::SP_CHALLENGE_LENGTH, '0123456789abcdef');
     }
 }
