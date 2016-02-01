@@ -6,6 +6,7 @@ use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
 
 /**
  * Dummy class for testing
+ *
  * @codingStandardsIgnoreFile
  */
 class DummyDigiDocService implements DigiDocServiceInterface

@@ -1,8 +1,8 @@
 <?php
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Services\MobileId\FileSigner;
 use Bigbank\DigiDoc\Services\MobileId\FileSignerInterface;
 use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
