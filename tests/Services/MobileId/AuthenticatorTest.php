@@ -14,15 +14,25 @@ class AuthenticatorTest extends TestCase
 {
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|DigiDocServiceInterface $digiDocMock
+     */
+    protected $digiDocMock;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->digiDocMock = $this->getMock(DummyDigiDocService::class, ['MobileAuthenticate']);
+    }
+
+    /**
      * @covers ::generateChallenge
      */
     public function testGenerateChallengeReturnsHexStringOfCorrectLength()
     {
-
-        /** @var \PHPUnit_Framework_MockObject_MockObject|DigiDocServiceInterface $digiDocMock */
-        $digiDocMock = $this->getMock(DummyDigiDocService::class, ['MobileAuthenticate']);
-
-        $digiDocMock->expects($this->once())
+        $this->digiDocMock->expects($this->once())
             ->method('MobileAuthenticate')
             ->with(
                 '14212128025',
@@ -40,7 +50,16 @@ class AuthenticatorTest extends TestCase
                 false,
                 false
             );
-        $authenticator = new Authenticator($digiDocMock, (new Factory)->getMediumStrengthGenerator());
+        $authenticator = $this->authenticatorFactory();
         $authenticator->authenticate('14212128025', '37200007', null, null);
+    }
+
+
+    /**
+     * @return Authenticator
+     */
+    private function authenticatorFactory()
+    {
+        return new Authenticator($this->digiDocMock, (new Factory)->getLowStrengthGenerator());
     }
 }

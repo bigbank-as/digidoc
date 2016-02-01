@@ -14,12 +14,19 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
 {
 
     /**
+     * Time to wait (in seconds) before starting polling for authentication status
+     *
+     * Used by `waitForAuthentication`, but not by `askStatus`
+     */
+    const INITIAL_WAIT_PERIOD = 8;
+
+    /**
      * The length of client-side random token 'SPChallenge'
      */
     const SP_CHALLENGE_LENGTH = 20;
 
     /**
-     * @var int
+     * @var int Amount of time in seconds between poll requests for the `waitForAuthentication` query
      */
     protected $pollingFrequency = 3;
 
@@ -37,7 +44,6 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
         parent::__construct($digiDocService);
         $this->random = $random;
     }
-
 
     /**
      * {@inheritdoc}
@@ -68,8 +74,8 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
 
         $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($sessionCode, false);
 
-        if (!isset($statusResponse['Status'])) {
-            throw new DigiDocException;
+        if (!isset($statusResponse['Status']) || !isset($statusResponse['Signature'])) {
+            throw new DigiDocException('DigiDoc response does not include all required elements');
         }
         return $statusResponse['Status'];
     }
@@ -79,6 +85,11 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
      */
     public function waitForAuthentication($sessionCode, callable $callback)
     {
+        // Initial sleep period
+        // It is reasonable to wait before starting sending status queries - it is
+        // improbable that message from user’s phone arrives earlier because of technical and
+        // human limitations.
+        sleep(self::INITIAL_WAIT_PERIOD);
 
         $status = InteractionStatus::OUTSTANDING_TRANSACTION;
         while ($status == InteractionStatus::OUTSTANDING_TRANSACTION) {
@@ -98,6 +109,6 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
      */
     private function generateChallenge()
     {
-        return $this->random->generateString(self::SP_CHALLENGE_LENGTH, '0123456789abcdef');
+        return $this->random->generateString(self::SP_CHALLENGE_LENGTH, '0123456789ABCDEF');
     }
 }

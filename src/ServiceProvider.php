@@ -11,9 +11,15 @@ use Bigbank\DigiDoc\Soap\SoapClientInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use RandomLib\Factory;
 
+/**
+ * DI service provider
+ */
 class ServiceProvider extends AbstractServiceProvider
 {
 
+    /**
+     * @var array
+     */
     protected $provides = [
         SoapClientInterface::class,
         AuthenticatorInterface::class,

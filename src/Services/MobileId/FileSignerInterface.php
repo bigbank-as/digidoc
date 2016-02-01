@@ -30,10 +30,10 @@ interface FileSignerInterface
     /**
      * Initiate the signing request
      *
-     * @var string $idCode
-     * @var string $phoneNumber
-     * @var string $serviceName
-     * @var string $messageToDisplay
+     * @var string $idCode Personal ID code of the signer
+     * @var string $phoneNumber Phone number of the signer
+     * @var string $serviceName The name of the current service (from contract with DigiDocService operator)
+     * @var string $messageToDisplay 40-byte arbitrary message to show to the signer
      *
      * @return array Returns string values with the keys Status, StatusCode, ChallengeID
      */
