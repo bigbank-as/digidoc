@@ -31,7 +31,10 @@ class AuthenticatorTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->digiDocMock = $this->getMock(DummyDigiDocService::class, ['MobileAuthenticate']);
+        $this->digiDocMock = $this->getMock(
+            DummyDigiDocService::class,
+            ['MobileAuthenticate', 'GetMobileAuthenticateStatus']
+        );
         $this->random      = (new Factory)->getLowStrengthGenerator();
     }
 
@@ -50,6 +53,7 @@ class AuthenticatorTest extends TestCase
                 null,
                 null,
                 $this->callback(function ($randomString) {
+                    // Verify that generated challenge is only of HEX characters and of fixed length
                     return ctype_xdigit($randomString)
                     && mb_strlen($randomString) === Authenticator::SP_CHALLENGE_LENGTH;
                 }),
@@ -81,6 +85,74 @@ class AuthenticatorTest extends TestCase
             function () {
             }
         );
+    }
+
+    /**
+     * @covers ::waitForAuthentication
+     */
+    public function testWaitForAuthenticationCallsCallbackFunction()
+    {
+        $authenticator = $this->getMock(Authenticator::class, ['askStatus'], [$this->digiDocMock, $this->random]);
+        $authenticator->expects($this->once())
+            ->method('askStatus')
+            ->willReturn(InteractionStatus::USER_CANCEL);
+
+        $callback = $this->getMock(\stdClass::class, ['callback']);
+        $callback->expects($this->once())
+            ->method('callback')
+            ->with(InteractionStatus::USER_CANCEL, 444);
+
+        $authenticator->waitForAuthentication(444, [$callback, 'callback']);
+    }
+
+    /**
+     * @covers ::waitForAuthentication
+     */
+    public function testWaitForAuthenticationHasAnInitialWaitPeriodBeforePolling()
+    {
+
+        $start = microtime(true);
+
+        $authenticator = $this->getMock(Authenticator::class, ['askStatus'], [$this->digiDocMock, $this->random]);
+        $authenticator->expects($this->once())
+            ->method('askStatus')
+            ->with($this->callback(function () use ($start) {
+                // Verify that there's a sleep call before the first call to askStatus
+                return microtime(true) - $start > Authenticator::INITIAL_WAIT_PERIOD;
+            }))
+            ->willReturn(InteractionStatus::USER_CANCEL);
+
+        $authenticator->waitForAuthentication(
+            0,
+            function () {
+            }
+        );
+    }
+
+    /**
+     * @covers ::askStatus
+     * @expectedException \Bigbank\DigiDoc\Exceptions\DigiDocException
+     */
+    public function testAskStatusThrowsOnInvalidResponse()
+    {
+        $this->digiDocMock->expects($this->once())
+            ->method('GetMobileAuthenticateStatus')
+            ->willReturn([]);
+
+        $this->authenticatorFactory()->askStatus(0);
+    }
+
+    /**
+     * @covers ::askStatus
+     */
+    public function testAskStatusReturnsStatusAsString()
+    {
+        $this->digiDocMock->expects($this->once())
+            ->method('GetMobileAuthenticateStatus')
+            ->willReturn(['Status' => InteractionStatus::USER_CANCEL]);
+
+        $status = $this->authenticatorFactory()->askStatus(0);
+        $this->assertSame(InteractionStatus::USER_CANCEL, $status);
     }
 
     /**

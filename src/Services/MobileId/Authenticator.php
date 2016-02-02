@@ -74,7 +74,7 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
 
         $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($sessionCode, false);
 
-        if (!isset($statusResponse['Status']) || !isset($statusResponse['Signature'])) {
+        if (!isset($statusResponse['Status'])) {
             throw new DigiDocException('DigiDoc response does not include all required elements');
         }
         return $statusResponse['Status'];
