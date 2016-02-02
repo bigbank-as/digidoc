@@ -3,6 +3,9 @@ namespace Bigbank\DigiDoc\Soap;
 
 use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
 
+/**
+ * @codingStandardsIgnoreFile
+ */
 interface DigiDocServiceInterface
 {
 

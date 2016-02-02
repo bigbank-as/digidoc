@@ -6,8 +6,14 @@ This project adheres to [Semantic Versioning](http://semver.org). See [Keep A Ch
 
 ## [Unreleased] - [Unreleased]
 
+### Added
+- Overall documentation improvements
+
 ### Fixed
 - Fix random `SPChallenge` generation with PHP 7: return valid UTF-8 hex challenges, not binary
+
+### Changed
+- Use `ircmaxell/random-lib` to generate random numbers for mobile ID authentication queries
 
 ## 0.1.0 - 2015-11-04
 

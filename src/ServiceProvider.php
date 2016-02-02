@@ -1,18 +1,25 @@
 <?php
 namespace Bigbank\DigiDoc;
 
-use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Services\MobileId\Authenticator;
+use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Services\MobileId\FileSigner;
 use Bigbank\DigiDoc\Services\MobileId\FileSignerInterface;
 use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
 use Bigbank\DigiDoc\Soap\SkDigiDocService;
 use Bigbank\DigiDoc\Soap\SoapClientInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use RandomLib\Factory;
 
+/**
+ * DI service provider
+ */
 class ServiceProvider extends AbstractServiceProvider
 {
 
+    /**
+     * @var array
+     */
     protected $provides = [
         SoapClientInterface::class,
         AuthenticatorInterface::class,
@@ -38,7 +45,6 @@ class ServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-
         $container = $this->getContainer();
 
         $container->add(DigiDocServiceInterface::class, function () {
@@ -56,7 +62,7 @@ class ServiceProvider extends AbstractServiceProvider
         $container->add(
             AuthenticatorInterface::class,
             Authenticator::class
-        )->withArgument(DigiDocServiceInterface::class);
+        )->withArguments([DigiDocServiceInterface::class, (new Factory)->getMediumStrengthGenerator()]);
 
         $container->add(
             FileSignerInterface::class,

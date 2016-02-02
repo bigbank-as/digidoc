@@ -1,6 +1,13 @@
 #!/usr/bin/env php
-
 <?php
+/**
+ * Use [Wsdl2PhpGenerator](https://github.com/wsdl2phpgenerator/wsdl2phpgenerator) to generate PHP classes
+ * from DigiDoc SOAP services
+ *
+ * The generated classes will be put under src/Soap/Wsdl.
+ * Run this program from the root directory of the project.
+ */
+
 use Bigbank\DigiDoc\DigiDoc;
 use Wsdl2PhpGenerator\Config;
 use Wsdl2PhpGenerator\Generator;
@@ -8,8 +15,7 @@ use Wsdl2PhpGenerator\Generator;
 require './vendor/autoload.php';
 
 echo sprintf(
-    "Generating WSDL files from DigiDoc service (%s)." .
-    "This happens as part of the Composer post-update hook and requires an active internet connection.\n",
+    "Generating WSDL files from DigiDoc service (%s). This requires an active internet connection.\n",
     DigiDoc::URL_TEST
 );
 
