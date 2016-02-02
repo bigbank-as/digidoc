@@ -53,7 +53,6 @@ class AuthenticatorTest extends TestCase
                 null,
                 null,
                 $this->callback(function ($randomString) {
-                    // Verify that generated challenge is only of HEX characters and of fixed length
                     return ctype_xdigit($randomString)
                     && mb_strlen($randomString) === Authenticator::SP_CHALLENGE_LENGTH;
                 }),
@@ -81,7 +80,6 @@ class AuthenticatorTest extends TestCase
             ));
 
         $authenticator->waitForAuthentication(
-            0,
             function () {
             }
         );
@@ -100,9 +98,9 @@ class AuthenticatorTest extends TestCase
         $callback = $this->getMock(\stdClass::class, ['callback']);
         $callback->expects($this->once())
             ->method('callback')
-            ->with(InteractionStatus::USER_CANCEL, 444);
+            ->with(InteractionStatus::USER_CANCEL);
 
-        $authenticator->waitForAuthentication(444, [$callback, 'callback']);
+        $authenticator->waitForAuthentication([$callback, 'callback']);
     }
 
     /**
@@ -123,7 +121,6 @@ class AuthenticatorTest extends TestCase
             ->willReturn(InteractionStatus::USER_CANCEL);
 
         $authenticator->waitForAuthentication(
-            0,
             function () {
             }
         );
@@ -139,7 +136,7 @@ class AuthenticatorTest extends TestCase
             ->method('GetMobileAuthenticateStatus')
             ->willReturn([]);
 
-        $this->authenticatorFactory()->askStatus(0);
+        $this->authenticatorFactory()->askStatus();
     }
 
     /**
@@ -151,7 +148,7 @@ class AuthenticatorTest extends TestCase
             ->method('GetMobileAuthenticateStatus')
             ->willReturn(['Status' => InteractionStatus::USER_CANCEL]);
 
-        $status = $this->authenticatorFactory()->askStatus(0);
+        $status = $this->authenticatorFactory()->askStatus();
         $this->assertSame(InteractionStatus::USER_CANCEL, $status);
     }
 

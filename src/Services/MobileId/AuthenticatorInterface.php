@@ -28,7 +28,7 @@ interface AuthenticatorInterface
      * @param string $serviceName The name of your application - this is written in Your contract with DigiDoc provider
      * @param string $messageToDisplay Text to display to the user. Max 40 bytes (byte != character!).
      *
-     * @return array Raw meta-data response from DigiDoc service. Contains session code needed in the next step.
+     * @return array Raw meta-data response from DigiDoc service
      */
     public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay);
 
@@ -39,13 +39,11 @@ interface AuthenticatorInterface
      * The status is `OUTSTANDING_TRANSACTION` after `authenticate` has been called, for as long as a timeout or an
      * error occurs or the user successfully authenticates.
      *
-     * @param string $sessionCode Session code from `authenticate` query
-     *
      * See constants in the `\Bigbank\DigiDoc\Soap\InteractionStatus` class.
      *
      * @return string Status of the authentication. Most often `OUTSTANDING_TRANSACTION` or `USER_AUTHENTICATED`.
      */
-    public function askStatus($sessionCode);
+    public function askStatus();
 
     /**
      * Wait until the authentication process ends and call a callback function
@@ -56,11 +54,10 @@ interface AuthenticatorInterface
      * DigiDoc API will be polled for authentication status every few seconds. As soon as the status changes
      * (either OK or one of several error codes) the callback will be called.
      *
-     * @param string   $sessionCode DigiDoc service session code that is returned by `authenticate` method
      * @param callable $callback    Callback function to call once authentication status changes. The function receives
-     *                              two arguments: authentication status and session code.
+     *                              the authentication status (string) as an argument.
      *
      * @return mixed The return value of the callback function
      */
-    public function waitForAuthentication($sessionCode, callable $callback);
+    public function waitForAuthentication(callable $callback);
 }

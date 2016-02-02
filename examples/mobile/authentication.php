@@ -29,7 +29,7 @@ printf(
 // Wait for the user to respond to the authentication.
 // This will either end with a success, failure or a timeout (~4min).
 // If a blocking call is not desired, use the `askStatus` function to poll.
-echo $authenticator->waitForAuthentication($response['Sesscode'], function ($status) {
+echo $authenticator->waitForAuthentication(function ($status) {
 
     if ($status === InteractionStatus::USER_AUTHENTICATED) {
         return "\nAuthentication OK\n";
