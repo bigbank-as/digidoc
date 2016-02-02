@@ -32,7 +32,7 @@ $authenticator = $digiDoc->getService(AuthenticatorInterface::class);
 $userDetails = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'My Test App');
 
 // Wait for the user to complete the process
-$authenticator->waitForAuthentication($response['Sesscode'], function($authResult){
+$authenticator->waitForAuthentication($response['Sesscode'], function ($authResult) {
  return $authResult === 'USER_AUTHENTICATED' ? 'welcome!' : 'not authenticated';
 });
 ```

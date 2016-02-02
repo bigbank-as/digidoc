@@ -4,8 +4,10 @@ namespace Bigbank\DigiDoc\Test;
 
 use Bigbank\DigiDoc\Services\MobileId\Authenticator;
 use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
 use Bigbank\DigiDoc\Test\Soap\DummyDigiDocService;
 use RandomLib\Factory;
+use RandomLib\Generator;
 
 /**
  * @coversDefaultClass \Bigbank\DigiDoc\Services\MobileId\Authenticator
@@ -19,12 +21,18 @@ class AuthenticatorTest extends TestCase
     protected $digiDocMock;
 
     /**
+     * @var Generator
+     */
+    protected $random;
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         parent::setUp();
         $this->digiDocMock = $this->getMock(DummyDigiDocService::class, ['MobileAuthenticate']);
+        $this->random      = (new Factory)->getLowStrengthGenerator();
     }
 
     /**
@@ -56,10 +64,30 @@ class AuthenticatorTest extends TestCase
 
 
     /**
+     * @covers ::waitForAuthentication
+     */
+    public function testWaitForAuthenticationContinuesWhenStatusChanges()
+    {
+        $authenticator = $this->getMock(Authenticator::class, ['askStatus'], [$this->digiDocMock, $this->random]);
+        $authenticator->expects($this->exactly(2))
+            ->method('askStatus')
+            ->will($this->onConsecutiveCalls(
+                InteractionStatus::OUTSTANDING_TRANSACTION,
+                InteractionStatus::USER_CANCEL
+            ));
+
+        $authenticator->waitForAuthentication(
+            0,
+            function () {
+            }
+        );
+    }
+
+    /**
      * @return Authenticator
      */
     private function authenticatorFactory()
     {
-        return new Authenticator($this->digiDocMock, (new Factory)->getLowStrengthGenerator());
+        return new Authenticator($this->digiDocMock, $this->random);
     }
 }
