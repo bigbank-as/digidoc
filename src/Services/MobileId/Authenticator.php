@@ -33,7 +33,12 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
     /**
      * @var Generator
      */
-    private $random;
+    protected $random;
+
+    /**
+     * @var string
+     */
+    protected $sessionCode;
 
     /**
      * @param DigiDocServiceInterface $digiDocService
@@ -50,8 +55,7 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
      */
     public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay)
     {
-
-        return $this->digiDocService->MobileAuthenticate(
+        $response = $this->digiDocService->MobileAuthenticate(
             $idCode,
             'EE',
             $phoneNumber,
@@ -64,15 +68,18 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
             false,
             false
         );
+
+        $this->sessionCode = $response['Sesscode'];
+
+        return $response;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function askStatus($sessionCode)
+    public function askStatus()
     {
-
-        $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($sessionCode, false);
+        $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($this->sessionCode, false);
 
         if (!isset($statusResponse['Status'])) {
             throw new DigiDocException('DigiDoc response does not include all required elements');
@@ -83,7 +90,7 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
     /**
      * {@inheritdoc}
      */
-    public function waitForAuthentication($sessionCode, callable $callback)
+    public function waitForAuthentication(callable $callback)
     {
         // Initial sleep period
         // It is reasonable to wait before starting sending status queries - it is
@@ -93,11 +100,11 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
 
         $status = InteractionStatus::OUTSTANDING_TRANSACTION;
         while ($status == InteractionStatus::OUTSTANDING_TRANSACTION) {
-            $status = $this->askStatus($sessionCode);
+            $status = $this->askStatus($this->sessionCode);
             sleep($this->pollingFrequency);
         }
 
-        return call_user_func($callback, $status, $sessionCode);
+        return call_user_func($callback, $status);
     }
 
     /**
