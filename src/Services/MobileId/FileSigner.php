@@ -75,7 +75,7 @@ class FileSigner extends AbstractService implements FileSignerInterface
     public function addFile($fileName, $mimeType, $content)
     {
 
-       $response = $this->digiDocService->AddDataFile(
+        $response = $this->digiDocService->AddDataFile(
             $this->sessionCode,
             $fileName,
             $mimeType,

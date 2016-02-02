@@ -1,12 +1,15 @@
 <?php
-namespace Bigbank\DigiDoc\Soap;
+namespace Bigbank\DigiDoc\Test\Soap;
 
+use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
 use Bigbank\DigiDoc\Soap\Wsdl\DataFileData;
 
 /**
+ * Dummy class for testing
+ *
  * @codingStandardsIgnoreFile
  */
-interface DigiDocServiceInterface
+class DummyDigiDocService implements DigiDocServiceInterface
 {
 
     /**
@@ -38,7 +41,9 @@ interface DigiDocServiceInterface
         $AsyncConfiguration,
         $ReturnCertData,
         $ReturnRevocationData
-    );
+    ) {
+
+    }
 
     /**
      * Service definition of function d__GetMobileAuthenticateStatus
@@ -48,7 +53,10 @@ interface DigiDocServiceInterface
      *
      * @return list(string $Status, string $Signature)
      */
-    public function GetMobileAuthenticateStatus($Sesscode, $WaitSignature);
+    public function GetMobileAuthenticateStatus($Sesscode, $WaitSignature)
+    {
+
+    }
 
     /**
      * Service definition of function d__StartSession
@@ -60,7 +68,10 @@ interface DigiDocServiceInterface
      *
      * @return list(string $Status, int $Sesscode, SignedDocInfo $SignedDocInfo)
      */
-    public function StartSession($SigningProfile, $SigDocXML, $bHoldSession, DataFileData $datafile);
+    public function StartSession($SigningProfile, $SigDocXML, $bHoldSession, DataFileData $datafile)
+    {
+
+    }
 
     /**
      * Service definition of function d__CreateSignedDoc
@@ -71,7 +82,10 @@ interface DigiDocServiceInterface
      *
      * @return list(string $Status, string $SignedDocInfo)
      */
-    public function CreateSignedDoc($Sesscode, $Format, $Version);
+    public function CreateSignedDoc($Sesscode, $Format, $Version)
+    {
+
+    }
 
     /**
      * @param int    $Sesscode
@@ -94,7 +108,9 @@ interface DigiDocServiceInterface
         $DigestType,
         $DigestValue,
         $Content
-    );
+    ) {
+
+    }
 
     /**
      * @param int    $Sesscode
@@ -135,7 +151,9 @@ interface DigiDocServiceInterface
         $AsyncConfiguration,
         $ReturnDocInfo,
         $ReturnDocData
-    );
+    ) {
+
+    }
 
     /**
      * @param int  $Sesscode
@@ -144,14 +162,20 @@ interface DigiDocServiceInterface
      *
      * @return list(string $Status, string $StatusCode, SignedDocInfo $SignedDocInfo)
      */
-    public function GetStatusInfo($Sesscode, $ReturnDocInfo, $WaitSignature);
+    public function GetStatusInfo($Sesscode, $ReturnDocInfo, $WaitSignature)
+    {
+
+    }
 
     /**
      * @param int $Sesscode
      *
      * @return list(string $Status, SignedDocInfo $SignedDocInfo)
      */
-    public function GetSignedDoc($Sesscode);
+    public function GetSignedDoc($Sesscode)
+    {
+
+    }
 
     /**
      * Service definition of function d__CloseSession
@@ -160,5 +184,8 @@ interface DigiDocServiceInterface
      *
      * @return string
      */
-    public function CloseSession($Sesscode);
+    public function CloseSession($Sesscode)
+    {
+
+    }
 }

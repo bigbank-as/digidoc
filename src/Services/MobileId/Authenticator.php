@@ -3,7 +3,9 @@ namespace Bigbank\DigiDoc\Services\MobileId;
 
 use Bigbank\DigiDoc\Exceptions\DigiDocException;
 use Bigbank\DigiDoc\Services\AbstractService;
+use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
 use Bigbank\DigiDoc\Soap\InteractionStatus;
+use RandomLib\Generator;
 
 /**
  * {@inheritdoc}
@@ -11,20 +13,49 @@ use Bigbank\DigiDoc\Soap\InteractionStatus;
 class Authenticator extends AbstractService implements AuthenticatorInterface
 {
 
+    /**
+     * Time to wait (in seconds) before starting polling for authentication status
+     *
+     * Used by `waitForAuthentication`, but not by `askStatus`
+     */
+    const INITIAL_WAIT_PERIOD = 8;
+
+    /**
+     * The length of client-side random token 'SPChallenge'
+     */
     const SP_CHALLENGE_LENGTH = 20;
 
     /**
-     * @var int
+     * @var int Amount of time in seconds between poll requests for the `waitForAuthentication` query
      */
     protected $pollingFrequency = 3;
+
+    /**
+     * @var Generator
+     */
+    protected $random;
+
+    /**
+     * @var string
+     */
+    protected $sessionCode;
+
+    /**
+     * @param DigiDocServiceInterface $digiDocService
+     * @param Generator               $random
+     */
+    public function __construct(DigiDocServiceInterface $digiDocService, Generator $random)
+    {
+        parent::__construct($digiDocService);
+        $this->random = $random;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay)
     {
-
-        return $this->digiDocService->MobileAuthenticate(
+        $response = $this->digiDocService->MobileAuthenticate(
             $idCode,
             'EE',
             $phoneNumber,
@@ -37,18 +68,21 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
             false,
             false
         );
+
+        $this->sessionCode = $response['Sesscode'];
+
+        return $response;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function askStatus($sessionCode)
+    public function askStatus()
     {
-
-        $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($sessionCode, false);
+        $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($this->sessionCode, false);
 
         if (!isset($statusResponse['Status'])) {
-            throw new DigiDocException;
+            throw new DigiDocException('DigiDoc response does not include all required elements');
         }
         return $statusResponse['Status'];
     }
@@ -56,33 +90,32 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
     /**
      * {@inheritdoc}
      */
-    public function waitForAuthentication($sessionCode, callable $callback)
+    public function waitForAuthentication(callable $callback)
     {
+        // Initial sleep period
+        // It is reasonable to wait before starting sending status queries - it is
+        // improbable that message from user’s phone arrives earlier because of technical and
+        // human limitations.
+        sleep(self::INITIAL_WAIT_PERIOD);
 
         $status = InteractionStatus::OUTSTANDING_TRANSACTION;
         while ($status == InteractionStatus::OUTSTANDING_TRANSACTION) {
-            $status = $this->askStatus($sessionCode);
+            $status = $this->askStatus($this->sessionCode);
             sleep($this->pollingFrequency);
         }
 
-        return call_user_func($callback, $status, $sessionCode);
+        return call_user_func($callback, $status);
     }
 
     /**
-     * Generates a random 10-byte string
+     * Generates a random hexadecimal string for SPChallenge parameter of DigiDoc
      *
-     * The generated string is cryptographically secure if the function `random_bytes` is available (>= PHP 7).
+     * The generated string is cryptographically secure.
      *
-     * @return int|string
+     * @return string
      */
     private function generateChallenge()
     {
-
-        if (function_exists('random_bytes')) {
-            return random_bytes(self::SP_CHALLENGE_LENGTH);
-        }
-
-        $randomString = bin2hex(openssl_random_pseudo_bytes(self::SP_CHALLENGE_LENGTH));
-        return substr($randomString, 0, self::SP_CHALLENGE_LENGTH);
+        return $this->random->generateString(self::SP_CHALLENGE_LENGTH, '0123456789ABCDEF');
     }
 }

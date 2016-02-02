@@ -2,47 +2,56 @@
 
 use Bigbank\DigiDoc\DigiDoc;
 use Bigbank\DigiDoc\Services\MobileId\FileSignerInterface;
+use Bigbank\DigiDoc\Soap\InteractionStatus;
 
-include '../../vendor/autoload.php';
+include './vendor/autoload.php';
 
+// Instantiate the main class - use DigiDoc testing service
 $digiDocService = new DigiDoc(DigiDoc::URL_TEST);
 
+// Ask for the file signing service
 /** @var FileSignerInterface $signer */
 $signer = $digiDocService->getService(FileSignerInterface::class);
 
+// Inputs to the file signer
 $userPhone   = '+37200007';
 $userIdCode  = '14212128025';
-$fileContent = base64_encode(file_get_contents('example.document.pdf'));
+$fileContent = base64_encode(file_get_contents(__DIR__ . '/example.document.pdf'));
 
-echo sprintf("Trying to sign a document with ID code %s, phone %s...\n", $userIdCode, $userPhone);
+printf("Trying to sign a document on behalf of person %s, phone %s...\n", $userIdCode, $userPhone);
 
+// Create a new "empty" container in SK-s service
 $signer->startSession();
 
-echo sprintf("Adding file...\n\n\n");
-
+printf("Uploading the file...\n");
 $signer->addFile('document.pdf', 'application/pdf', $fileContent);
 
-echo sprintf("Signing...\n\n\n");
-
+printf("Signing...\n");
 $response = $signer->sign($userIdCode, $userPhone, 'Testimine', 'My Application');
 
-echo sprintf(
-    "Challenge ID %s is sent, waiting for a signature...\n\n",
+printf(
+    "Challenge ID %s is sent, waiting for a signature...\n",
     $response['ChallengeID']
 );
 
-$callback = function ($status, $fileContents) {
+// Wait for the user to sign the document.
+// This is a blocking call which will end with either success, failure or a timeout
+// The callback function receives the status of the signing and the signed file (if successful) as a base64 string.
+// If a blocking call is not desired, use `askStatus` to poll.
+$signer->waitForSignature(function ($status, $fileContent) {
 
-    echo "\nSignature created\n";
+    // The signing might have failed (user cancelled, timeout...)
+    if ($status !== InteractionStatus::SIGNATURE) {
+        printf('Signing failed with status %s', $status);
+        die();
+    }
 
-    file_put_contents('signed.document.bdoc', base64_decode($fileContents));
-    echo '----- FILE -----' . "\n\n\n";
+    // You'd normally want to save the base64-decoded content of the result (a .bdoc signed file)
+    // to your file system. For the purposes of this demo we'll just echo it's size.
+    $fileSize = mb_strlen(base64_decode($fileContent), '8bit') / 1024;
 
-    echo $fileContents;
+    printf("Signature created. The size of the signed .bdoc file is %dkB.\n", $fileSize);
+});
 
-    echo "\n\n\n" . '------ EOF -----';
-};
-
-$signer->waitForSignature($callback);
-
+// Destroy any data (files) about our session from the remote SK server
 $signer->closeSession();
