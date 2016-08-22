@@ -27,10 +27,11 @@ interface AuthenticatorInterface
      * @param string $phoneNumber User's phone number (must have an active mobile ID contract with the provider)
      * @param string $serviceName The name of your application - this is written in Your contract with DigiDoc provider
      * @param string $messageToDisplay Text to display to the user. Max 40 bytes (byte != character!).
+     * @param bool $returnCertData Return certificate data for compliance
      *
      * @return array Raw meta-data response from DigiDoc service
      */
-    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay);
+    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay, $returnCertData = false);
 
     /**
      * Ask DigiDocService for the status of the authentication

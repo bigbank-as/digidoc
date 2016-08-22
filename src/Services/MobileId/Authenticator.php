@@ -53,7 +53,7 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
     /**
      * {@inheritdoc}
      */
-    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay)
+    public function authenticate($idCode, $phoneNumber, $serviceName, $messageToDisplay, $returnCertData = false)
     {
         $response = $this->digiDocService->MobileAuthenticate(
             $idCode,
@@ -65,7 +65,7 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
             $this->generateChallenge(),
             'asynchClientServer',
             null,
-            false,
+            $returnCertData,
             false
         );
 

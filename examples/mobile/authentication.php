@@ -15,7 +15,7 @@ $authenticator = $digiDocService->getService(AuthenticatorInterface::class);
 printf("Trying to authenticate with mobile ID (using testing API)...\n");
 
 // Make an authentication request to SK using testing inputs (see http://www.id.ee/?id=36373)
-$response = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'My Application');
+$response = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'My Application', false);
 
 print_r($response);
 

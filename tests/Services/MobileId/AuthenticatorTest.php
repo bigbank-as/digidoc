@@ -31,11 +31,9 @@ class AuthenticatorTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->digiDocMock = $this->getMock(
-            DummyDigiDocService::class,
-            ['MobileAuthenticate', 'GetMobileAuthenticateStatus']
-        );
-        $this->random      = (new Factory)->getLowStrengthGenerator();
+        $this->digiDocMock = $this->getMockBuilder(DummyDigiDocService::class)
+            ->setMethods(['MobileAuthenticate', 'GetMobileAuthenticateStatus'])->getMock();
+        $this->random = (new Factory)->getLowStrengthGenerator();
     }
 
     /**
@@ -71,7 +69,8 @@ class AuthenticatorTest extends TestCase
      */
     public function testWaitForAuthenticationContinuesWhenStatusChanges()
     {
-        $authenticator = $this->getMock(Authenticator::class, ['askStatus'], [$this->digiDocMock, $this->random]);
+        $authenticator = $this->getMockBuilder(Authenticator::class)
+            ->setMethods(['askStatus'])->setConstructorArgs([$this->digiDocMock, $this->random])->getMock();
         $authenticator->expects($this->exactly(2))
             ->method('askStatus')
             ->will($this->onConsecutiveCalls(
@@ -90,12 +89,13 @@ class AuthenticatorTest extends TestCase
      */
     public function testWaitForAuthenticationCallsCallbackFunction()
     {
-        $authenticator = $this->getMock(Authenticator::class, ['askStatus'], [$this->digiDocMock, $this->random]);
+        $authenticator = $this->getMockBuilder(Authenticator::class)
+            ->setMethods(['askStatus'])->setConstructorArgs([$this->digiDocMock, $this->random])->getMock();
         $authenticator->expects($this->once())
             ->method('askStatus')
             ->willReturn(InteractionStatus::USER_CANCEL);
-
-        $callback = $this->getMock(\stdClass::class, ['callback']);
+        
+        $callback = $this->getMockBuilder(\stdClass::class)->setMethods(['callback'])->getMock();
         $callback->expects($this->once())
             ->method('callback')
             ->with(InteractionStatus::USER_CANCEL);
@@ -111,7 +111,8 @@ class AuthenticatorTest extends TestCase
 
         $start = microtime(true);
 
-        $authenticator = $this->getMock(Authenticator::class, ['askStatus'], [$this->digiDocMock, $this->random]);
+        $authenticator = $this->getMockBuilder(Authenticator::class)
+            ->setMethods(['askStatus'])->setConstructorArgs([$this->digiDocMock, $this->random])->getMock();
         $authenticator->expects($this->once())
             ->method('askStatus')
             ->with($this->callback(function () use ($start) {
@@ -150,6 +151,33 @@ class AuthenticatorTest extends TestCase
 
         $status = $this->authenticatorFactory()->askStatus();
         $this->assertSame(InteractionStatus::USER_CANCEL, $status);
+    }
+
+    /**
+     * @covers ::generateChallenge
+     */
+    public function testMobileAuthenticateCanHandleReturnCertDataBoolean()
+    {
+        $this->digiDocMock->expects($this->once())
+            ->method('MobileAuthenticate')
+            ->with(
+                '14212128025',
+                'EE',
+                '+37200007',
+                'EST',
+                null,
+                null,
+                $this->callback(function ($randomString) {
+                    return ctype_xdigit($randomString)
+                    && mb_strlen($randomString) === Authenticator::SP_CHALLENGE_LENGTH;
+                }),
+                'asynchClientServer',
+                null,
+                true,
+                false
+            );
+        $authenticator = $this->authenticatorFactory();
+        $authenticator->authenticate('14212128025', '37200007', null, null, true);
     }
 
     /**
