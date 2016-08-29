@@ -5,6 +5,8 @@ use Bigbank\DigiDoc\Services\MobileId\Authenticator;
 use Bigbank\DigiDoc\Services\MobileId\AuthenticatorInterface;
 use Bigbank\DigiDoc\Services\MobileId\FileSigner;
 use Bigbank\DigiDoc\Services\MobileId\FileSignerInterface;
+use Bigbank\DigiDoc\Services\IdCard\FileSignerInterface as IdCardFileSignerInterface;
+use Bigbank\DigiDoc\Services\IdCard\FileSigner as IdCardFileSigner;
 use Bigbank\DigiDoc\Soap\DigiDocServiceInterface;
 use Bigbank\DigiDoc\Soap\SkDigiDocService;
 use Bigbank\DigiDoc\Soap\SoapClientInterface;
@@ -23,7 +25,8 @@ class ServiceProvider extends AbstractServiceProvider
     protected $provides = [
         SoapClientInterface::class,
         AuthenticatorInterface::class,
-        FileSignerInterface::class
+        FileSignerInterface::class,
+        IdCardFileSignerInterface::class
     ];
 
     /**
@@ -63,6 +66,11 @@ class ServiceProvider extends AbstractServiceProvider
             AuthenticatorInterface::class,
             Authenticator::class
         )->withArguments([DigiDocServiceInterface::class, (new Factory)->getMediumStrengthGenerator()]);
+
+        $container->add(
+            IdCardFileSignerInterface::class,
+            IdCardFileSigner::class
+        )->withArgument(DigiDocServiceInterface::class);
 
         $container->add(
             FileSignerInterface::class,

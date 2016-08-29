@@ -29,7 +29,7 @@ $digiDoc = new DigiDoc(DigiDoc::URL_TEST);
 $authenticator = $digiDoc->getService(AuthenticatorInterface::class);
 
 // Start mobile ID authentication
-$userDetails = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'My Test App');
+$userDetails = $authenticator->authenticate('14212128025', '+37200007', 'Testimine', 'My Test App', false);
 
 // Wait for the user to complete the process
 $authenticator->waitForAuthentication(function ($authResult) {
