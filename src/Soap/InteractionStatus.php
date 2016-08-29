@@ -73,4 +73,9 @@ final class InteractionStatus
      * Error in the SOAP API
      */
     const INTERNAL_ERROR = 'INTERNAL_ERROR';
+
+    /**
+     * For IdCard signatures
+     */
+    const OK = 'OK';
 }
