@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org). See [Keep A Changelog](http://keepachangelog.com) for instructions on how to maintain this file.
 
+## 0.3.1 - 2016-08-31
+
+Change Authenticator interface
+
+### Changed
+- Public interface of `Authenticator` supports overriding session code
+
 ## 0.3.0 - 2016-07-16
 
 Add Id Card signing support

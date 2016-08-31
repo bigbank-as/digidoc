@@ -137,7 +137,7 @@ class AuthenticatorTest extends TestCase
             ->method('GetMobileAuthenticateStatus')
             ->willReturn([]);
 
-        $this->authenticatorFactory()->askStatus();
+        $this->authenticatorFactory()->askStatus(1234);
     }
 
     /**
@@ -149,7 +149,7 @@ class AuthenticatorTest extends TestCase
             ->method('GetMobileAuthenticateStatus')
             ->willReturn(['Status' => InteractionStatus::USER_CANCEL]);
 
-        $status = $this->authenticatorFactory()->askStatus();
+        $status = $this->authenticatorFactory()->askStatus(1234);
         $this->assertSame(InteractionStatus::USER_CANCEL, $status);
     }
 

@@ -42,9 +42,11 @@ interface AuthenticatorInterface
      *
      * See constants in the `\Bigbank\DigiDoc\Soap\InteractionStatus` class.
      *
+     * @param string|null $sessionCode Session code from `authenticate` query
+     *
      * @return string Status of the authentication. Most often `OUTSTANDING_TRANSACTION` or `USER_AUTHENTICATED`.
      */
-    public function askStatus();
+    public function askStatus($sessionCode = null);
 
     /**
      * Wait until the authentication process ends and call a callback function
