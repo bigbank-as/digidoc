@@ -4,10 +4,22 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org). See [Keep A Changelog](http://keepachangelog.com) for instructions on how to maintain this file.
 
+
+
+## 0.3.1 - 2016-08-31
+
+### Changed
+- Public interface of `Authenticator` supports overriding session code
+
+
+
 ## 0.3.0 - 2016-07-16
 
-Add Id Card signing support
-Refactor both Mobile Id and Id Card signing to use the same base class
+### Added
+- Add Id Card signing support
+- Refactor both Mobile Id and Id Card signing to use the same base class
+
+
 
 ## 0.2.0 - 2016-02-02
 
@@ -22,6 +34,8 @@ Refactoring release. Minor backwards compatibility break for the `Authenticator`
 ### Changed
 - Use `ircmaxell/random-lib` to generate random numbers for mobile ID authentication queries
 - Public interface of `Authenticator` has changed: session code is now held internally and is not passed as a parameter to calls after `authenticate`
+
+
 
 ## 0.1.0 - 2015-11-04
 

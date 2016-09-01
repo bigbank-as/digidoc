@@ -77,13 +77,17 @@ class Authenticator extends AbstractService implements AuthenticatorInterface
     /**
      * {@inheritdoc}
      */
-    public function askStatus()
+    public function askStatus($sessionCode = null)
     {
-        $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($this->sessionCode, false);
-
+        $sessionCode = $sessionCode ? $sessionCode : $this->sessionCode;
+        if (empty($sessionCode)) {
+            throw new DigiDocException('No session code provided');
+        }
+        $statusResponse = $this->digiDocService->GetMobileAuthenticateStatus($sessionCode, false);
         if (!isset($statusResponse['Status'])) {
             throw new DigiDocException('DigiDoc response does not include all required elements');
         }
+
         return $statusResponse['Status'];
     }
 
